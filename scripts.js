@@ -20,11 +20,6 @@ let currentMusic = null;
 let isMusicPlaying = true;
 let currentTrackName = null;
 
-// 語音聊天相關
-let localStream = null;
-let peerConnections = {};
-let isVoiceActive = false;
-
 // 初始化 Firebase
 function initializeFirebase() {
     try {
@@ -86,61 +81,6 @@ window.toggleMusic = function() {
         if (currentMusic) {
             currentMusic.pause();
         }
-    }
-};
-
-
-// 語音聊天功能
-window.toggleVoiceChat = async function() {
-    const btn = document.getElementById('voiceBtn');
-    const icon = document.getElementById('voiceIcon');
-    const text = document.getElementById('voiceText');
-    const status = document.getElementById('voiceStatus');
-
-    if (!isVoiceActive) {
-        try {
-            localStream = await navigator.mediaDevices.getUserMedia({ 
-                audio: {
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    autoGainControl: true
-                } 
-            });
-
-            isVoiceActive = true;
-            btn.classList.add('active');
-            icon.textContent = '🔴';
-            text.textContent = '關閉語音';
-            status.style.display = 'block';
-            status.textContent = '✅ 語音已開啟';
-
-            // 通知其他玩家
-            await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), {
-                voiceActive: true
-            });
-
-            console.log('語音聊天已啟動');
-        } catch (error) {
-            console.error('無法啟動麥克風:', error);
-            alert('無法啟動麥克風，請確認已授予麥克風權限。');
-        }
-    } else {
-        if (localStream) {
-            localStream.getTracks().forEach(track => track.stop());
-            localStream = null;
-        }
-        
-        isVoiceActive = false;
-        btn.classList.remove('active');
-        icon.textContent = '🎤';
-        text.textContent = '開啟語音';
-        status.style.display = 'none';
-// 通知其他玩家
-        await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), {
-            voiceActive: false
-        });
-
-        console.log('語音聊天已關閉');
     }
 };
 

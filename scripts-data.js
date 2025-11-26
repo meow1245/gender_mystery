@@ -15,9 +15,9 @@ export const SCRIPTS = {
                     {
                         day: 1,
                         phases: [
-                            { name: "早晨", duration: 300, type: "discussion", description: "自由討論時間，分享你的觀察和想法" },
-                            { name: "下午", duration: 300, type: "discussion", description: "深入討論事件始末" },
-                            { name: "傍晚", duration: 180, type: "voting", description: "投票環節" }
+                            { name: "早晨", duration: 30, type: "discussion", description: "自由討論時間，分享你的觀察和想法" },
+                            { name: "下午", duration: 30, type: "discussion", description: "深入討論事件始末" },
+                            { name: "傍晚", duration: 18, type: "voting", description: "投票環節" }
                         ]
                     }
                 ],
