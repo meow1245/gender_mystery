@@ -400,6 +400,11 @@ function listenToRoom() {
         if (room.status === 'playing') {
             showGame(room);
             updateGamePhase(room);
+            
+            // 新增: 如果是主持人，且遊戲狀態是 playing，則檢查回合是否結束
+            if (isHost && room.players) {
+                checkAllTurnsEnded(room); 
+            }
         }
         if (room.messages) updateChat(room.messages);
     });
@@ -477,6 +482,33 @@ function updateGamePhase(room) {
 
     if (phase.type === 'discussion' && !phaseTimer) {
         startPhaseTimer(phase.duration, room.currentDay, room.currentPhaseIndex, dayData.phases.length);
+    } else if (phase.type === 'voting') {
+        if (phaseTimer) { clearInterval(phaseTimer); phaseTimer = null; }
+        showVoting(room.players, room.scriptType, room.currentDay, script.days);
+    }
+    // 獲取當前玩家的狀態
+    const myPlayer = room.players[currentPlayerId];
+    const endTurnBtn = document.getElementById('endTurnBtn');
+    const voteSection = document.getElementById('voteSection');
+    
+    // 隱藏投票區塊和按鈕，然後根據階段顯示
+    endTurnBtn.style.display = 'none';
+    voteSection.style.display = 'none';
+
+    if (phase.type === 'discussion') {
+        // 顯示結束回合按鈕
+        endTurnBtn.style.display = 'block';
+        if (myPlayer?.turnEnded) {
+            endTurnBtn.disabled = true;
+            endTurnBtn.textContent = '✅ 已結束發言，等待其他玩家...';
+        } else {
+            endTurnBtn.disabled = false;
+            endTurnBtn.textContent = '結束本回合發言';
+        }
+
+        if (!phaseTimer) {
+            startPhaseTimer(phase.duration, room.currentDay, room.currentPhaseIndex, dayData.phases.length);
+        }
     } else if (phase.type === 'voting') {
         if (phaseTimer) { clearInterval(phaseTimer); phaseTimer = null; }
         showVoting(room.players, room.scriptType, room.currentDay, script.days);
@@ -599,6 +631,96 @@ function showFinalResults(votes, players, room) {
     if (isHost) update(ref(database, `rooms/${currentRoomId}`), { phase: 'ended' });
 }
 
+async function endTurn() {
+    // 檢查當前是否為討論階段
+    const roomSnap = await get(ref(database, `rooms/${currentRoomId}`));
+    const room = roomSnap.val();
+    const script = room.script;
+    const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
+    const phase = dayData.phases[room.currentPhaseIndex || 0];
+    
+    if (phase.type !== 'discussion') return; // 只有討論階段才能結束回合
+
+    // 1. 更新玩家狀態為已結束發言
+    await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), { turnEnded: true });
+
+    // 2. 顯示按鈕已禁用，避免重複點擊
+    document.getElementById('endTurnBtn').disabled = true;
+    document.getElementById('endTurnBtn').textContent = '✅ 已結束發言，等待其他玩家...';
+
+    // 3. 系統廣播該玩家已結束
+    await push(ref(database, `rooms/${currentRoomId}/messages`), {
+        sender: '系統', 
+        text: `${currentPlayerName} 已結束本回合發言。`, 
+        type: 'public', 
+        timestamp: Date.now()
+    });
+
+    // 4. 主持人檢查是否所有人都結束了
+    if (isHost) {
+        checkAllTurnsEnded(room);
+    }
+}
+
+async function checkAllTurnsEnded(room) {
+    const players = room.players;
+    const playerIds = Object.keys(players);
+    let allEnded = true;
+
+    playerIds.forEach(pid => {
+        if (!players[pid].turnEnded) {
+            allEnded = false;
+        }
+    });
+
+    if (allEnded) {
+        // 清除計時器（如果正在運行）
+        if (phaseTimer) {
+            clearInterval(phaseTimer);
+            phaseTimer = null;
+        }
+
+        // 觸發進入下一階段的邏輯 (與計時器結束邏輯相同)
+        const script = room.script;
+        const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
+        const totalP = dayData.phases.length;
+        const currentPIndex = room.currentPhaseIndex || 0;
+        const nextP = currentPIndex + 1;
+        const currentDay = room.currentDay || 1;
+
+        const updates = {};
+        
+        if (nextP < totalP) {
+            // 進入下一個階段
+            updates.currentPhaseIndex = nextP;
+            updates.eventShown = false;
+        } else {
+            // 進入下一天，或者遊戲結束
+            updates.currentDay = currentDay + 1;
+            updates.currentPhaseIndex = 0;
+            updates.eventShown = false;
+            
+            // 清除所有玩家的投票紀錄，因為要開始新的一輪
+            const snap = await get(ref(database, `rooms/${currentRoomId}/players`));
+            Object.keys(snap.val() || {}).forEach(k => updates[`players/${k}/vote`] = null);
+        }
+
+        // 重置所有玩家的 turnEnded 狀態
+        Object.keys(players).forEach(pid => updates[`players/${pid}/turnEnded`] = false);
+
+        // 提交更新
+        await update(ref(database, `rooms/${currentRoomId}`), updates);
+        
+        // 系統通知回合結束
+        await push(ref(database, `rooms/${currentRoomId}/messages`), {
+            sender: '系統', 
+            text: '所有玩家已結束發言，進入下一階段！', 
+            type: 'public', 
+            timestamp: Date.now()
+        });
+    }
+}
+
 // -----------------------------------------------------------
 // ⚠️ 重要：手動將函式綁定到 window 物件，解決 onclick 找不到的問題
 // -----------------------------------------------------------
@@ -619,6 +741,7 @@ window.startGame = startGame;
 window.sendMessage = sendMessage;
 window.leaveRoom = leaveRoom;
 window.vote = vote;
+window.endTurn = endTurn;
 
 console.log("✅ 全域函式綁定完成！");
 
