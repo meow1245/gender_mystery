@@ -4,8 +4,6 @@ import { firebaseConfig, IMAGE_BASE_URL } from './firebase-config.js';
 import { MUSIC_CONFIG, getScriptMusic } from './music-config.js';
 import { SCRIPTS } from './scripts-data.js';
 
-
-// 全局變數
 let app, database;
 let currentRoomId = null;
 let currentPlayerId = null;
@@ -19,220 +17,300 @@ let hasVoted = false;
 let currentMusic = null;
 let isMusicPlaying = true;
 let currentTrackName = null;
+let isProcessing = false;
 
-// 初始化 Firebase
 function initializeFirebase() {
     try {
         app = initializeApp(firebaseConfig);
         database = getDatabase(app);
         console.log('✅ Firebase 初始化成功');
         playMusic('home');
-        return true;
     } catch (error) {
-        console.error('❌ Firebase 初始化失敗:', error);
-        alert('Firebase 初始化失敗：' + error.message);
-        return false;
+        console.error('❌ Firebase Error:', error);
+        alert('Firebase 初始化失敗');
     }
 }
 
+function bindEvents() {
+    document.getElementById('musicToggle')?.addEventListener('click', toggleMusic);
+    document.getElementById('btnCreateRoom')?.addEventListener('click', showCreateRoom);
+    document.getElementById('btnJoinRoom')?.addEventListener('click', showJoinRoom);
+    document.getElementById('btnOpenMusicRoom')?.addEventListener('click', showMusicRoom);
 
-// 音樂控制函數
-function playMusic(trackNameOrScriptId, isScriptId = false) {
-    if (currentMusic) {
-        currentMusic.pause();
-        currentMusic.currentTime = 0;
-        currentMusic = null;
-    }
+    document.getElementById('selectTeenType')?.addEventListener('click', () => selectScriptType('teen'));
+    document.getElementById('selectAdultType')?.addEventListener('click', () => selectScriptType('adult'));
+    document.getElementById('btnBackToHomeFromCreate')?.addEventListener('click', backToHome);
+    
+    document.querySelectorAll('.room-size-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => selectRoomSize(parseInt(e.target.dataset.size)));
+    });
+    
+    document.getElementById('btnBackToScriptType')?.addEventListener('click', backToScriptType);
+    document.getElementById('btnBackToPlayerCount')?.addEventListener('click', backToPlayerCount);
 
-    if (!isMusicPlaying) return;
+    document.getElementById('btnConfirmJoin')?.addEventListener('click', joinRoom);
+    document.getElementById('btnBackToHomeFromJoin')?.addEventListener('click', backToHome);
+    document.getElementById('btnBackFromMusic')?.addEventListener('click', backToHome);
 
-    let trackUrl;
-    if (isScriptId) {
-        trackUrl = getScriptMusic(trackNameOrScriptId);
-        currentTrackName = trackNameOrScriptId;
+    document.getElementById('btnStartGame')?.addEventListener('click', startGame);
+    document.getElementById('btnLeaveRoom')?.addEventListener('click', leaveRoom);
+    document.getElementById('btnSendMessage')?.addEventListener('click', sendMessage);
+    document.getElementById('endTurnBtn')?.addEventListener('click', endTurn);
+    
+    document.querySelectorAll('.music-item').forEach(item => {
+        item.addEventListener('click', (e) => playMusic(e.target.dataset.music));
+    });
+
+    document.getElementById('characterSecret')?.addEventListener('click', function() {
+        this.classList.toggle('blur-text');
+    });
+
+    document.getElementById('messageInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // 綁定自定義下拉選單事件
+    document.getElementById('btnMessageType')?.addEventListener('click', toggleMsgType);
+    document.getElementById('btnPrivateTarget')?.addEventListener('click', toggleTargetMenu);
+
+    // 點擊空白處關閉上拉選單
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('targetMenu');
+        const btn = document.getElementById('btnPrivateTarget');
+        if (menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+}
+
+// 切換公/私聊 (JS 邏輯)
+function toggleMsgType() {
+    const btn = document.getElementById('btnMessageType');
+    const input = document.getElementById('msgTypeInput');
+    const targetBtn = document.getElementById('btnPrivateTarget');
+    
+    if (input.value === 'public') {
+        input.value = 'private';
+        btn.textContent = '🔒 私聊';
+        btn.classList.add('active');
+        targetBtn.style.display = 'flex';
+        // 自動打開選單
+        const menu = document.getElementById('targetMenu');
+        menu.classList.add('show');
     } else {
-        trackUrl = MUSIC_CONFIG[trackNameOrScriptId];
-        currentTrackName = trackNameOrScriptId;
+        input.value = 'public';
+        btn.textContent = '📢 公開';
+        btn.classList.remove('active');
+        targetBtn.style.display = 'none';
+        document.getElementById('targetMenu').classList.remove('show');
     }
+}
 
+function toggleTargetMenu() {
+    document.getElementById('targetMenu').classList.toggle('show');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFirebase();
+    bindEvents();
+    switchScreen('homeScreen'); 
+    initMusicRoom(); 
+});
+
+// --- 大廳渲染 (美化版) ---
+function updatePlayersList(players, max) {
+    const list = document.getElementById('playersList');
+    list.innerHTML = '';
+    document.getElementById('currentPlayers').textContent = players ? Object.keys(players).length : 0;
+    document.getElementById('maxPlayers').textContent = max;
+
+    if (players) {
+        Object.entries(players).forEach(([playerId, p]) => {
+            const div = document.createElement('div');
+            div.className = 'player-item';
+            let kickButton = '';
+            if (isHost && playerId !== currentPlayerId) {
+                kickButton = `<button class="kick-btn">踢出</button>`;
+            }
+            div.innerHTML = `
+                <div class="player-name">
+                    <span style="font-size:1.2rem;">${['🐶','🐱','🐭','🐹','🐰','🦊'][Math.floor(Math.random()*6)]}</span>
+                    <span>${p.name}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.9em; background:#f0f0f0; padding:2px 8px; border-radius:10px;">${p.character ? '✅ 準備' : '⏳ 等待'}</span>
+                    ${kickButton}
+                </div>
+            `;
+            if(kickButton) div.querySelector('.kick-btn').addEventListener('click', () => kickPlayer(playerId, p.name));
+            list.appendChild(div);
+        });
+    }
+}
+
+// --- 私聊選單更新 ---
+function updatePrivateTargets(players) {
+    const menu = document.getElementById('targetMenu');
+    if (!menu) return;
+    menu.innerHTML = '';
+    Object.entries(players).forEach(([pid, p]) => {
+        if (pid !== currentPlayerId && p.character) {
+            const div = document.createElement('div');
+            div.className = 'dropup-item';
+            div.textContent = `${p.name} (${p.character.name})`;
+            div.addEventListener('click', () => {
+                document.getElementById('privateTargetInput').value = p.name;
+                document.getElementById('btnPrivateTarget').textContent = `To: ${p.name}`;
+                menu.classList.remove('show');
+            });
+            menu.appendChild(div);
+        }
+    });
+}
+
+// --- 其餘函式保持不變 (initMusicRoom, showMusicRoom, playMusic...) ---
+// (為了版面整潔，此處省略中間重複的函式，請保留您原本的代碼，
+//  但務必確保 sendMessage 使用了新的 input id 讀取方式如下)
+
+function initMusicRoom() {
+    const container = document.getElementById('fullMusicList');
+    if (!container) return;
+    const basics = [
+        { name: '首頁', key: 'home', desc: '歡迎光臨' },
+        { name: '大廳', key: 'lobby', desc: '等待中的懸疑感' },
+        { name: '勝利', key: 'victory', desc: '正義伸張' },
+        { name: '悲傷', key: 'sad_ending', desc: '遺憾與反思' }
+    ];
+    let html = '<h4>🎵 基礎音效</h4>';
+    basics.forEach(m => { html += `<div class="music-row" onclick="window.playMusic('${m.key}')"><div class="music-info"><span class="music-name">${m.name}</span><span class="music-desc">${m.desc}</span></div><span class="music-play-icon">▶</span></div>`; });
+    html += '<h4 style="margin-top:15px;">📂 案件 BGM</h4>';
+    ['teen', 'adult'].forEach(type => {
+        for (const size in SCRIPTS[type]) {
+            SCRIPTS[type][size].forEach(script => {
+                html += `<div class="music-row" onclick="window.playMusic('${script.id}', true)"><div class="music-info"><span class="music-name">${script.title}</span><span class="music-desc">${type === 'teen' ? '未成年組' : '成年組'} / ${size}人</span></div><span class="music-play-icon">▶</span></div>`;
+            });
+        }
+    });
+    container.innerHTML = html;
+}
+
+function showMusicRoom() { switchScreen('musicScreen'); }
+
+function playMusic(trackNameOrScriptId, isScriptId = false) {
+    if (currentMusic) { currentMusic.pause(); currentMusic.currentTime = 0; currentMusic = null; }
+    if (!isMusicPlaying) return;
+    let trackUrl = isScriptId ? getScriptMusic(trackNameOrScriptId) : MUSIC_CONFIG[trackNameOrScriptId];
     if (trackUrl) {
         currentMusic = new Audio(trackUrl);
         currentMusic.loop = true;
         currentMusic.volume = 0.3;
-        currentMusic.play().catch(err => {
-            console.log('音樂播放失敗（可能需要用戶互動）:', err);
-        });
+        currentMusic.play().catch(err => console.log('Autoplay blocked'));
     }
 }
 
-window.toggleMusic = function() {
+function toggleMusic() {
     const btn = document.getElementById('musicToggle');
     isMusicPlaying = !isMusicPlaying;
-    
     if (isMusicPlaying) {
         btn.textContent = '🔊';
-        // 重新播放當前音樂
-        if (currentTrackName) {
-            const isScript = !['home', 'lobby', 'victory'].includes(currentTrackName);
-            playMusic(currentTrackName, isScript);
-        }
+        if (currentTrackName) playMusic(currentTrackName, !['home', 'lobby', 'victory', 'sad_ending'].includes(currentTrackName));
     } else {
         btn.textContent = '🔇';
-        if (currentMusic) {
-            currentMusic.pause();
-        }
+        if (currentMusic) currentMusic.pause();
     }
-};
+}
 
-
-// 頁面載入時初始化
-document.addEventListener('DOMContentLoaded', () => {
-    initializeFirebase();
-    
-    // 監聽訊息類型變化
-    const messageType = document.getElementById('messageType');
-    const privateTarget = document.getElementById('privateTarget');
-    
-    if (messageType && privateTarget) {
-        messageType.addEventListener('change', (e) => {
-            if (e.target.value === 'private') {
-                privateTarget.style.display = 'block';
-            } else {
-                privateTarget.style.display = 'none';
-            }
-        });
+function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none';
+    });
+    const target = document.getElementById(screenId);
+    if (target) {
+        target.classList.add('active');
+        target.style.removeProperty('display');
     }
+}
 
-    // Enter 鍵發送訊息
-    const messageInput = document.getElementById('messageInput');
-    if (messageInput) {
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-    }
-});
-
-// 導航函數
-window.showCreateRoom = function() {
-            const name = document.getElementById('playerName').value.trim();
-            if (!name) {
-                alert('請先輸入你的名字');
-                return;
-            }
-            currentPlayerName = name;
-            document.getElementById('homeScreen').classList.remove('active');
-            document.getElementById('createRoomScreen').classList.add('active');
-        };
-
-window.showJoinRoom = function() {
+function showCreateRoom() {
     const name = document.getElementById('playerName').value.trim();
-    if (!name) {
-        alert('請先輸入你的名字');
-        return;
-    }
+    if (!name) { alert('請先輸入你的名字 ✨'); return; }
     currentPlayerName = name;
-    document.getElementById('homeScreen').classList.remove('active');
-    document.getElementById('joinRoomScreen').classList.add('active');
-};
+    switchScreen('createRoomScreen');
+}
 
-window.backToHome = function() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('homeScreen').classList.add('active');
+function showJoinRoom() {
+    const name = document.getElementById('playerName').value.trim();
+    if (!name) { alert('請先輸入你的名字 ✨'); return; }
+    currentPlayerName = name;
+    switchScreen('joinRoomScreen');
+}
+
+function backToHome() {
+    switchScreen('homeScreen');
     playMusic('home');
     selectedRoomSize = null;
     selectedScriptType = null;
     selectedScript = null;
-};
+}
 
-window.backToScriptType = function() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('createRoomScreen').classList.add('active');
-    selectedRoomSize = null;
-};
+function backToScriptType() { switchScreen('createRoomScreen'); selectedRoomSize = null; }
+function backToPlayerCount() { switchScreen('selectPlayerCountScreen'); selectedScript = null; }
 
-window.backToPlayerCount = function() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('selectPlayerCountScreen').classList.add('active');
-    selectedScript = null;
-};
-
-window.selectScriptType = function(type) {
+function selectScriptType(type) {
     selectedScriptType = type;
-    document.querySelectorAll('.script-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    event.target.closest('.script-card').classList.add('selected');
-    
-    setTimeout(() => {
-        document.getElementById('createRoomScreen').classList.remove('active');
-        document.getElementById('selectPlayerCountScreen').classList.add('active');
-    }, 300);
-};
+    document.querySelectorAll('.script-card').forEach(card => card.classList.remove('selected'));
+    const targetId = type === 'teen' ? 'selectTeenType' : 'selectAdultType';
+    document.getElementById(targetId).classList.add('selected');
+    setTimeout(() => switchScreen('selectPlayerCountScreen'), 300);
+}
 
-window.selectRoomSize = function(size) {
+function selectRoomSize(size) {
     selectedRoomSize = size;
-    document.querySelectorAll('.room-size-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    event.target.classList.add('selected');
-    
-    setTimeout(() => {
-        showAvailableScripts();
-    }, 300);
-};
-
+    document.querySelectorAll('.room-size-btn').forEach(btn => btn.classList.remove('selected'));
+    const clickedBtn = Array.from(document.querySelectorAll('.room-size-btn')).find(b => b.dataset.size == size);
+    if(clickedBtn) clickedBtn.classList.add('selected');
+    setTimeout(showAvailableScripts, 300);
+}
 
 function showAvailableScripts() {
     const scripts = SCRIPTS[selectedScriptType][selectedRoomSize];
     const scriptList = document.getElementById('scriptList');
     scriptList.innerHTML = '';
-    
+    if (!scripts || scripts.length === 0) {
+        scriptList.innerHTML = '<p style="text-align:center; color:#666;">無符合劇本 😿</p>';
+        switchScreen('selectScriptScreen');
+        return;
+    }
     scripts.forEach(script => {
         const scriptDiv = document.createElement('div');
         scriptDiv.className = 'script-option';
-        scriptDiv.onclick = () => selectScript(script);
-        
-        scriptDiv.innerHTML = `
-            <h4>${script.title}</h4>
-            <p>${script.description}</p>
-            <div class="script-meta">
-                <span class="tag duration">⏱️ ${script.duration}</span>
-                <span class="tag difficulty">📊 ${script.difficulty}</span>
-                <span class="tag">👥 ${selectedRoomSize}人</span>
-                ${script.days > 1 ? `<span class="tag">📅 ${script.days}天</span>` : ''}
-            </div>
-        `;
-        
+        scriptDiv.innerHTML = `<h4>${script.title}</h4><p>${script.description}</p><div class="script-meta"><span class="tag duration">⏱️ ${script.duration}</span><span class="tag difficulty">📊 ${script.difficulty}</span><span class="tag">👥 ${selectedRoomSize}人</span></div>`;
+        scriptDiv.addEventListener('click', () => selectScript(script, scriptDiv));
         scriptList.appendChild(scriptDiv);
     });
-    
-    document.getElementById('selectPlayerCountScreen').classList.remove('active');
-    document.getElementById('selectScriptScreen').classList.add('active');
+    switchScreen('selectScriptScreen');
 }
 
-
-window.selectScript = function(script) {
+function selectScript(script, element) {
+    if (isProcessing) return;
+    isProcessing = true;
     selectedScript = script;
-    
-    document.querySelectorAll('.script-option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
-    event.target.closest('.script-option').classList.add('selected');
-    
+    document.querySelectorAll('.script-option').forEach(opt => opt.classList.remove('selected'));
+    element.classList.add('selected');
     setTimeout(() => {
-        createRoomWithScript();
+        createRoomWithScript().finally(() => isProcessing = false);
     }, 300);
-};
+}
 
+function generateRoomCode() { return Math.random().toString(36).substring(2, 8).toUpperCase(); }
 
-// --- 房間與遊戲邏輯 ---
 async function createRoomWithScript() {
     currentRoomId = generateRoomCode();
     const roomRef = ref(database, `rooms/${currentRoomId}`);
-    
     await set(roomRef, {
         host: currentPlayerName,
         status: 'waiting',
@@ -242,156 +320,56 @@ async function createRoomWithScript() {
         maxPlayers: selectedRoomSize,
         createdAt: Date.now()
     });
-
     currentPlayerId = await addPlayer(currentPlayerName);
     isHost = true;
-    
     showLobby();
     listenToRoom();
 }
 
-window.joinRoom = async function() {
-    const roomCode = document.getElementById('roomCode').value.trim().toUpperCase();
-
-    if (!roomCode) {
-        alert('請輸入房間代碼');
-        return;
-    }
-
-    currentRoomId = roomCode;
-    const roomRef = ref(database, `rooms/${currentRoomId}`);
-    const snapshot = await get(roomRef);
-
-    if (!snapshot.exists()) {
-        alert('房間不存在，請確認代碼是否正確');
-        return;
-    }
-
-    const room = snapshot.val();
-    const currentPlayerCount = room.players ? Object.keys(room.players).length : 0;
-
-    if (currentPlayerCount >= room.maxPlayers) {
-        alert('房間已滿');
-        return;
-    }
-
-    if (room.status !== 'waiting') {
-        alert('遊戲已開始，無法加入');
-        return;
-    }
-    currentPlayerId = await addPlayer(currentPlayerName);
-    showLobby();
-    listenToRoom();
-};
-
+async function joinRoom() {
+    if (isProcessing) return;
+    const roomCode = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+    if (!roomCode) { alert('請輸入代碼'); return; }
+    isProcessing = true;
+    const btn = document.getElementById('btnConfirmJoin');
+    if(btn) { btn.disabled = true; btn.textContent = '加入中...'; }
+    try {
+        currentRoomId = roomCode;
+        const roomRef = ref(database, `rooms/${currentRoomId}`);
+        const snapshot = await get(roomRef);
+        if (!snapshot.exists()) { alert('房間不存在 😿'); return; }
+        const room = snapshot.val();
+        const count = room.players ? Object.keys(room.players).length : 0;
+        if (count >= room.maxPlayers) { alert('房間已滿 🚫'); return; }
+        if (room.status !== 'waiting') { alert('遊戲已開始 🚫'); return; }
+        currentPlayerId = await addPlayer(currentPlayerName);
+        showLobby();
+        listenToRoom();
+    } catch (e) { console.error(e); alert('加入失敗'); }
+    finally { isProcessing = false; if(btn) { btn.disabled = false; btn.textContent = '確認加入'; } }
+}
 
 async function addPlayer(name) {
-    const playersRef = ref(database, `rooms/${currentRoomId}/players`);
-    const newPlayerRef = push(playersRef);
-    
-    await set(newPlayerRef, {
-        name: name,
-        joinedAt: Date.now(),
-        voiceActive: false
-    });
-
+    const newPlayerRef = push(ref(database, `rooms/${currentRoomId}/players`));
+    await set(newPlayerRef, { name: name, joinedAt: Date.now() });
     onDisconnect(newPlayerRef).remove();
-    
     return newPlayerRef.key;
 }
 
-
-async function startGame() {
-    if (!isHost) return;
-    const snapshot = await get(ref(database, `rooms/${currentRoomId}/players`));
-    const players = snapshot.val();
-    const playerIds = Object.keys(players);
-    
-    const roomSnap = await get(ref(database, `rooms/${currentRoomId}`));
-    const roomData = roomSnap.val();
-
-    if (playerIds.length !== roomData.maxPlayers) {
-        alert(`需要 ${roomData.maxPlayers} 人才能開始`);
-        return;
-    }
-
-    const shuffledChars = [...roomData.script.characters].sort(() => Math.random() - 0.5);
-    playerIds.forEach((pid, idx) => {
-        update(ref(database, `rooms/${currentRoomId}/players/${pid}`), { character: shuffledChars[idx] });
-    });
-
-    await update(ref(database, `rooms/${currentRoomId}`), {
-        status: 'playing',
-        startTime: Date.now(),
-        currentDay: 1,
-        currentPhaseIndex: 0
-    });
-}
-
-function leaveRoom() {
-    if (currentRoomId && currentPlayerId) {
-        remove(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`));
-    }
-    location.reload();
-}
-
-async function sendMessage() {
-    const input = document.getElementById('messageInput');
-    const type = document.getElementById('messageType').value;
-    if (!input.value.trim()) return;
-
-    await push(ref(database, `rooms/${currentRoomId}/messages`), {
-        sender: currentPlayerName,
-        text: input.value.trim(),
-        type: type,
-        timestamp: Date.now()
-    });
-    input.value = '';
-}
-
-async function vote(votedName) {
-    if (hasVoted) return;
-    await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), { vote: votedName });
-    hasVoted = true;
-    document.querySelectorAll('.vote-button').forEach(btn => btn.disabled = true);
-    alert('投票成功');
-    checkVoteResults();
-}
-
-// --- 輔助函式 ---
-
-function switchScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-}
-
-function updateSelectedCard(selector, target) {
-    if(!target) return;
-    document.querySelectorAll(selector).forEach(el => el.classList.remove('selected'));
-    target.classList.add('selected');
-}
-
-function generateRoomCode() {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
-
 function showLobby() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('lobbyScreen').classList.add('active');
+    switchScreen('lobbyScreen');
     document.getElementById('displayRoomCode').textContent = currentRoomId;
-
     playMusic('lobby');
-
-    if (isHost) {
-        document.getElementById('hostControls').style.display = 'block';
-    }
+    if (isHost) document.getElementById('hostControls').style.display = 'block';
 }
 
 function listenToRoom() {
     onValue(ref(database, `rooms/${currentRoomId}`), (snapshot) => {
         const room = snapshot.val();
-        if (!room) { alert('房間已關閉'); location.reload(); return; }
-
+        if (!room) { alert('房間已關閉 👋'); location.reload(); return; }
+        if (room.players && room.players[currentPlayerId]?.kicked) { alert('你已被移出 🚫'); location.reload(); return; }
+        if (room.status === 'waiting' && room.players && !room.players[currentPlayerId]) { alert('你已被移出'); location.reload(); return; }
+        if (isHost) checkAndDestroyEmptyRoom(room);
         updatePlayersList(room.players, room.maxPlayers);
         if (room.script) {
             document.getElementById('displayScriptName').textContent = room.script.title;
@@ -400,135 +378,114 @@ function listenToRoom() {
         if (room.status === 'playing') {
             showGame(room);
             updateGamePhase(room);
-            
-            // 新增: 如果是主持人，且遊戲狀態是 playing，則檢查回合是否結束
-            if (isHost && room.players) {
-                checkAllTurnsEnded(room); 
-            }
+            updatePrivateTargets(room.players);
+            if (isHost && room.players) checkAllTurnsEnded(room);
         }
         if (room.messages) updateChat(room.messages);
     });
 }
 
-function updatePlayersList(players, max) {
-    const list = document.getElementById('playersList');
-    list.innerHTML = '';
-    document.getElementById('currentPlayers').textContent = players ? Object.keys(players).length : 0;
-    document.getElementById('maxPlayers').textContent = max;
+async function kickPlayer(playerId, playerName) {
+    if (!confirm(`確定要將 ${playerName} 踢出房間嗎？`)) return;
+    try {
+        await push(ref(database, `rooms/${currentRoomId}/messages`), { sender: '系統', text: `${playerName} 已被房主移出房間`, type: 'public', timestamp: Date.now() });
+        await update(ref(database, `rooms/${currentRoomId}/players/${playerId}`), { kicked: true });
+        setTimeout(async () => await remove(ref(database, `rooms/${currentRoomId}/players/${playerId}`)), 500);
+    } catch (error) { console.error(error); }
+}
 
-    if (players) {
-        Object.values(players).forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'player-item';
-            div.innerHTML = `<span>👤 ${p.name}</span>${p.character ? '<span>✅</span>' : '<span>⏳</span>'}`;
-            list.appendChild(div);
-        });
-    }
+async function checkAndDestroyEmptyRoom(room) {
+    const count = room.players ? Object.keys(room.players).length : 0;
+    if (count === 0) await remove(ref(database, `rooms/${currentRoomId}`));
+}
+
+async function startGame() {
+    const snap = await get(ref(database, `rooms/${currentRoomId}/players`));
+    const players = snap.val();
+    const pIds = Object.keys(players);
+    const roomSnap = await get(ref(database, `rooms/${currentRoomId}`));
+    const roomData = roomSnap.val();
+    if (pIds.length !== roomData.maxPlayers) { alert(`需要 ${roomData.maxPlayers} 人才能開始`); return; }
+    const chars = [...roomData.script.characters].sort(() => Math.random() - 0.5);
+    pIds.forEach((pid, idx) => update(ref(database, `rooms/${currentRoomId}/players/${pid}`), { character: chars[idx] }));
+    await update(ref(database, `rooms/${currentRoomId}`), { status: 'playing', startTime: Date.now(), currentDay: 1, currentPhaseIndex: 0 });
+}
+
+function leaveRoom() {
+    if (currentRoomId && currentPlayerId) {
+        if (isHost) remove(ref(database, `rooms/${currentRoomId}`)).then(() => location.reload());
+        else remove(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`)).then(() => location.reload());
+    } else location.reload();
 }
 
 function showGame(room) {
     if (document.getElementById('gameScreen').classList.contains('active')) return;
     switchScreen('gameScreen');
-
-    // 播放音樂：檢查劇本是否有設定 music，否則使用預設
     const musicKey = room.script.music || (room.scriptType === 'teen' ? 'default_teen' : 'default_adult');
     playMusic(musicKey);
-
     const myPlayer = room.players[currentPlayerId];
     if (myPlayer?.character) {
         document.getElementById('characterName').textContent = myPlayer.character.name;
         document.getElementById('characterBackground').textContent = myPlayer.character.background;
         document.getElementById('characterSecret').textContent = myPlayer.character.secret;
-        if (myPlayer.character.goal) {
-            document.getElementById('characterGoal').innerHTML = `<strong>目標：</strong>${myPlayer.character.goal}`;
-        }
-        
-        // 圖片處理
+        if (myPlayer.character.goal) document.getElementById('characterGoal').innerHTML = `<strong>目標：</strong>${myPlayer.character.goal}`;
         const img = document.getElementById('characterPortrait');
-        if (myPlayer.character.portrait) {
-            img.src = IMAGE_BASE_URL + myPlayer.character.portrait;
-            img.style.display = 'block';
-        } else {
-            img.style.display = 'none';
-        }
+        if (myPlayer.character.portrait) { img.src = IMAGE_BASE_URL + myPlayer.character.portrait; img.style.display = 'block'; }
     }
-    
-    const qList = document.getElementById('questionList');
-    qList.innerHTML = '';
-    room.script.questions?.forEach(q => {
-        const li = document.createElement('li');
-        li.textContent = q;
-        qList.appendChild(li);
-    });
 }
 
 function updateGamePhase(room) {
     const script = room.script;
-    const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
+    const currentDay = room.currentDay || 1;
+    const dayData = script.dayPhases.find(d => d.day === currentDay);
     if (!dayData) return;
     const phase = dayData.phases[room.currentPhaseIndex || 0];
     if (!phase) return;
-
-    document.getElementById('dayIndicator').textContent = `第 ${room.currentDay || 1} 天`;
-    document.getElementById('phaseInfo').textContent = `${phase.name} - ${phase.description}`;
-
+    document.getElementById('dayIndicator').textContent = `Day ${currentDay}`;
+    document.getElementById('phaseInfo').textContent = `${phase.name}`;
+    const myPlayer = room.players[currentPlayerId];
+    if (myPlayer?.character) showCharacterClue(myPlayer.character, phase.name, currentDay);
     if (dayData.events) {
         const evt = dayData.events.find(e => e.phase === phase.name);
         if (evt && !room.eventShown) {
-            showEvent(evt.content);
+            document.getElementById('eventContent').textContent = evt.content;
+            document.getElementById('eventCard').style.display = 'block';
+            setTimeout(() => document.getElementById('eventCard').style.display = 'none', 8000);
             if (isHost) update(ref(database, `rooms/${currentRoomId}`), { eventShown: true });
         }
     }
-
-    if (phase.type === 'discussion' && !phaseTimer) {
-        startPhaseTimer(phase.duration, room.currentDay, room.currentPhaseIndex, dayData.phases.length);
-    } else if (phase.type === 'voting') {
-        if (phaseTimer) { clearInterval(phaseTimer); phaseTimer = null; }
-        showVoting(room.players, room.scriptType, room.currentDay, script.days);
-    }
-    // 獲取當前玩家的狀態
-    const myPlayer = room.players[currentPlayerId];
     const endTurnBtn = document.getElementById('endTurnBtn');
     const voteSection = document.getElementById('voteSection');
-    
-    // 隱藏投票區塊和按鈕，然後根據階段顯示
     endTurnBtn.style.display = 'none';
     voteSection.style.display = 'none';
-
     if (phase.type === 'discussion') {
-        // 顯示結束回合按鈕
         endTurnBtn.style.display = 'block';
-        if (myPlayer?.turnEnded) {
-            endTurnBtn.disabled = true;
-            endTurnBtn.textContent = '✅ 已結束發言，等待其他玩家...';
-        } else {
-            endTurnBtn.disabled = false;
-            endTurnBtn.textContent = '結束本回合發言';
-        }
-
-        if (!phaseTimer) {
-            startPhaseTimer(phase.duration, room.currentDay, room.currentPhaseIndex, dayData.phases.length);
-        }
+        if (myPlayer?.turnEnded) { endTurnBtn.disabled = true; endTurnBtn.textContent = '✅ 已待機'; }
+        else { endTurnBtn.disabled = false; endTurnBtn.textContent = '結束發言'; }
+        if (!phaseTimer) startPhaseTimer(phase.duration, currentDay, room.currentPhaseIndex, dayData.phases.length);
     } else if (phase.type === 'voting') {
         if (phaseTimer) { clearInterval(phaseTimer); phaseTimer = null; }
-        showVoting(room.players, room.scriptType, room.currentDay, script.days);
+        showVoting(room.players, room.script, currentDay);
     }
 }
 
-function showEvent(content) {
-    const card = document.getElementById('eventCard');
-    document.getElementById('eventContent').textContent = content;
-    card.style.display = 'block';
-    setTimeout(() => card.style.opacity = '0.7', 5000);
+function showCharacterClue(character, phaseName, day) {
+    const clueDiv = document.getElementById('characterClue');
+    const clueContent = document.getElementById('clueContent');
+    const clueKey = `${phaseName}_${day}`;
+    if (character.clues && character.clues[clueKey]) {
+        clueContent.textContent = character.clues[clueKey];
+        clueDiv.style.display = 'block';
+    } else {
+        clueDiv.style.display = 'none';
+    }
 }
 
-function startPhaseTimer(seconds, day, pIndex, totalP) {
+function showEvent(content) { /* Same */ }
+function startPhaseTimer(seconds, day, pIndex, totalP) { 
     let timeLeft = seconds;
     const timerDiv = document.getElementById('timer');
-    
-    // 清除舊的計時器
     if(phaseTimer) clearInterval(phaseTimer);
-
     phaseTimer = setInterval(async () => {
         const min = Math.floor(timeLeft / 60);
         const sec = timeLeft % 60;
@@ -542,208 +499,170 @@ function startPhaseTimer(seconds, day, pIndex, totalP) {
                 const updateData = nextP < totalP 
                     ? { currentPhaseIndex: nextP, eventShown: false }
                     : { currentDay: day + 1, currentPhaseIndex: 0, eventShown: false };
-                
                 if (nextP >= totalP) {
                    const updates = {};
                    const snap = await get(ref(database, `rooms/${currentRoomId}/players`));
                    Object.keys(snap.val() || {}).forEach(k => updates[`players/${k}/vote`] = null);
                    await update(ref(database, `rooms/${currentRoomId}`), { ...updateData, ...updates });
-                } else {
-                   await update(ref(database, `rooms/${currentRoomId}`), updateData);
-                }
+                } else { await update(ref(database, `rooms/${currentRoomId}`), updateData); }
             }
         }
     }, 1000);
+}
+
+// 修正：讀取自定義選單的 input
+async function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const type = document.getElementById('msgTypeInput').value; // 修改
+    const target = document.getElementById('privateTargetInput').value; // 修改
+    
+    if (!input.value.trim()) return;
+    if (type === 'private' && !target) { alert('請選擇私聊對象'); return; }
+
+    const messageData = { sender: currentPlayerName, text: input.value.trim(), type: type, timestamp: Date.now() };
+    if (type === 'private') messageData.target = target;
+    
+    await push(ref(database, `rooms/${currentRoomId}/messages`), messageData);
+    input.value = '';
 }
 
 function updateChat(msgs) {
     const box = document.getElementById('chatContainer');
     box.innerHTML = '';
     Object.values(msgs).sort((a,b) => a.timestamp - b.timestamp).forEach(m => {
+        if (m.type === 'private') {
+            if (m.sender !== currentPlayerName && m.target !== currentPlayerName) return;
+        }
         const div = document.createElement('div');
         div.className = 'message';
-        div.innerHTML = `<div class="sender">${m.sender} ${m.type==='private'?'(私)':''}</div><div>${m.text}</div>`;
+        let displayText = `<div class="sender">${m.sender}</div>`;
+        if (m.type === 'private') {
+            div.style.backgroundColor = '#fff3e0';
+            div.style.borderLeft = '3px solid #ff9800';
+            displayText = `<div class="sender" style="color: #ff6f00;">🔒 ${m.sender === currentPlayerName ? `你 → ${m.target}` : `${m.sender} (私訊)`}</div>`;
+        }
+        div.innerHTML = `${displayText}<div>${m.text}</div>`;
         box.appendChild(div);
     });
     box.scrollTop = box.scrollHeight;
 }
 
-function showVoting(players, type, day, totalDays) {
+async function endTurn() {
+    await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), { turnEnded: true });
+    document.getElementById('endTurnBtn').disabled = true;
+    document.getElementById('endTurnBtn').textContent = '✅ 已待機';
+    await push(ref(database, `rooms/${currentRoomId}/messages`), { sender: '系統', text: `${currentPlayerName} 已結束發言。`, type: 'public', timestamp: Date.now() });
+    if (isHost) checkAllTurnsEnded(await (await get(ref(database, `rooms/${currentRoomId}`))).val());
+}
+
+async function checkAllTurnsEnded(room) {
+    const players = room.players;
+    let allEnded = true;
+    Object.values(players).forEach(p => { if (!p.turnEnded) allEnded = false; });
+    if (allEnded) {
+        if (phaseTimer) clearInterval(phaseTimer);
+        const script = room.script;
+        const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
+        const totalP = dayData.phases.length;
+        const nextP = (room.currentPhaseIndex || 0) + 1;
+        const updates = {};
+        if (nextP < totalP) { updates.currentPhaseIndex = nextP; updates.eventShown = false; }
+        else { updates.currentDay = (room.currentDay || 1) + 1; updates.currentPhaseIndex = 0; updates.eventShown = false; Object.keys(players).forEach(k => updates[`players/${k}/vote`] = null); }
+        Object.keys(players).forEach(pid => updates[`players/${pid}/turnEnded`] = false);
+        await update(ref(database, `rooms/${currentRoomId}`), updates);
+        await push(ref(database, `rooms/${currentRoomId}/messages`), { sender: '系統', text: '階段切換！', type: 'public', timestamp: Date.now() });
+    }
+}
+
+function showVoting(players, script, day) {
     document.getElementById('voteSection').style.display = 'block';
     const btnDiv = document.getElementById('voteButtons');
     btnDiv.innerHTML = '';
-    document.getElementById('votePrompt').textContent = type === 'teen' 
-        ? '誰的觀點最有啟發性？' 
-        : (day < totalDays ? '誰最可疑？' : '最終投票：誰是兇手/關鍵人物？');
-
+    const isFinalDay = day >= script.days;
+    document.getElementById('votePrompt').textContent = isFinalDay ? '最終投票：請選擇結局' : '誰最可疑？';
     Object.values(players).forEach(p => {
         if (!p.character) return;
         const btn = document.createElement('button');
         btn.className = 'vote-button';
         btn.textContent = `${p.name} (${p.character.name})`;
-        btn.onclick = () => vote(p.name);
+        btn.addEventListener('click', () => vote(p.character.name));
         if (hasVoted) btn.disabled = true;
         btnDiv.appendChild(btn);
     });
+    if (isFinalDay && script.specialVotes) {
+        script.specialVotes.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'vote-button system-vote';
+            btn.style.backgroundColor = '#6c757d'; btn.textContent = opt.label;
+            btn.addEventListener('click', () => vote(opt.value));
+            if (hasVoted) btn.disabled = true;
+            btnDiv.appendChild(btn);
+        });
+    }
+}
+
+async function vote(votedName) {
+    if (hasVoted) return;
+    await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), { vote: votedName });
+    hasVoted = true;
+    document.querySelectorAll('.vote-button').forEach(btn => btn.disabled = true);
+    alert('投票成功');
+    checkVoteResults();
 }
 
 async function checkVoteResults() {
     const snap = await get(ref(database, `rooms/${currentRoomId}`));
     const room = snap.val();
     const players = room.players;
-    
     let allVoted = true;
     const votes = {};
-    Object.values(players).forEach(p => {
-        if (!p.vote) allVoted = false;
-        else votes[p.vote] = (votes[p.vote] || 0) + 1;
-    });
-
+    Object.values(players).forEach(p => { if (!p.vote) allVoted = false; else votes[p.vote] = (votes[p.vote] || 0) + 1; });
     if (allVoted) {
         const maxVoteName = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
         if ((room.currentDay || 1) < room.script.days) {
-            push(ref(database, `rooms/${currentRoomId}/messages`), {
-                sender: '系統', text: `投票結果：${maxVoteName} 最高票。`, type: 'public', timestamp: Date.now()
-            });
-        } else {
-            showFinalResults(votes, players, room);
-        }
+            await push(ref(database, `rooms/${currentRoomId}/messages`), { sender: '系統', text: `投票結果：${maxVoteName} 目前最被懷疑。`, type: 'public', timestamp: Date.now() });
+        } else { showFinalResults(votes, players, room); }
     }
 }
 
 function showFinalResults(votes, players, room) {
-    const maxVote = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+    const winnerKey = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+    let endingContent = null;
+    if (room.script.endings && room.script.endings[winnerKey]) endingContent = room.script.endings[winnerKey];
+    else endingContent = { title: "結局：迷霧重重", description: `眾人指向了 ${winnerKey}，但證據不足...`, type: "bad", image: null };
+    
     const resDiv = document.getElementById('gameResult');
     resDiv.style.display = 'block';
-    playMusic('victory');
+    if (endingContent.type === 'bad') { playMusic('sad_ending'); resDiv.className = 'result-modal alert-danger'; }
+    else if (endingContent.type === 'good') { playMusic('victory'); resDiv.className = 'result-modal alert-success'; }
+    else { playMusic('victory'); resDiv.className = 'result-modal alert-info'; }
     
-    let villainInfo = room.script.villain || '請參考劇本說明';
-    
-    resDiv.className = 'alert alert-info';
+    let imgHTML = endingContent.image ? `<img src="${IMAGE_BASE_URL}${endingContent.image}" class="final-image" style="width:100%; border-radius:8px;">` : '';
+    let questionsHTML = room.script.questions ? `<ul>${room.script.questions.map(q => `<li>${q}</li>`).join('')}</ul>` : '';
+
     resDiv.innerHTML = `
-        <h3>投票結果</h3>
-        <p>最高票：<strong>${maxVote}</strong></p>
-        <hr>
-        <h4>真相揭露：</h4>
-        <p>${villainInfo}</p>
+        <button class="close-modal-btn" onclick="document.getElementById('gameResult').style.display='none'">×</button>
+        <h3>🎉 結局</h3><p>選擇：${winnerKey}</p>
+        <div style="background:rgba(255,255,255,0.9); padding:15px; border-radius:8px;">
+            <h2>${endingContent.title}</h2>${imgHTML}<p>${endingContent.description}</p>
+        </div>
+        ${questionsHTML}
+        <button onclick="leaveRoom()" class="btn-secondary full-width" style="margin-top:15px;">退出遊戲</button>
     `;
-    
     if (isHost) update(ref(database, `rooms/${currentRoomId}`), { phase: 'ended' });
 }
 
-async function endTurn() {
-    // 檢查當前是否為討論階段
-    const roomSnap = await get(ref(database, `rooms/${currentRoomId}`));
-    const room = roomSnap.val();
-    const script = room.script;
-    const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
-    const phase = dayData.phases[room.currentPhaseIndex || 0];
-    
-    if (phase.type !== 'discussion') return; // 只有討論階段才能結束回合
-
-    // 1. 更新玩家狀態為已結束發言
-    await update(ref(database, `rooms/${currentRoomId}/players/${currentPlayerId}`), { turnEnded: true });
-
-    // 2. 顯示按鈕已禁用，避免重複點擊
-    document.getElementById('endTurnBtn').disabled = true;
-    document.getElementById('endTurnBtn').textContent = '✅ 已結束發言，等待其他玩家...';
-
-    // 3. 系統廣播該玩家已結束
-    await push(ref(database, `rooms/${currentRoomId}/messages`), {
-        sender: '系統', 
-        text: `${currentPlayerName} 已結束本回合發言。`, 
-        type: 'public', 
-        timestamp: Date.now()
-    });
-
-    // 4. 主持人檢查是否所有人都結束了
-    if (isHost) {
-        checkAllTurnsEnded(room);
-    }
-}
-
-async function checkAllTurnsEnded(room) {
-    const players = room.players;
-    const playerIds = Object.keys(players);
-    let allEnded = true;
-
-    playerIds.forEach(pid => {
-        if (!players[pid].turnEnded) {
-            allEnded = false;
-        }
-    });
-
-    if (allEnded) {
-        // 清除計時器（如果正在運行）
-        if (phaseTimer) {
-            clearInterval(phaseTimer);
-            phaseTimer = null;
-        }
-
-        // 觸發進入下一階段的邏輯 (與計時器結束邏輯相同)
-        const script = room.script;
-        const dayData = script.dayPhases.find(d => d.day === (room.currentDay || 1));
-        const totalP = dayData.phases.length;
-        const currentPIndex = room.currentPhaseIndex || 0;
-        const nextP = currentPIndex + 1;
-        const currentDay = room.currentDay || 1;
-
-        const updates = {};
-        
-        if (nextP < totalP) {
-            // 進入下一個階段
-            updates.currentPhaseIndex = nextP;
-            updates.eventShown = false;
-        } else {
-            // 進入下一天，或者遊戲結束
-            updates.currentDay = currentDay + 1;
-            updates.currentPhaseIndex = 0;
-            updates.eventShown = false;
-            
-            // 清除所有玩家的投票紀錄，因為要開始新的一輪
-            const snap = await get(ref(database, `rooms/${currentRoomId}/players`));
-            Object.keys(snap.val() || {}).forEach(k => updates[`players/${k}/vote`] = null);
-        }
-
-        // 重置所有玩家的 turnEnded 狀態
-        Object.keys(players).forEach(pid => updates[`players/${pid}/turnEnded`] = false);
-
-        // 提交更新
-        await update(ref(database, `rooms/${currentRoomId}`), updates);
-        
-        // 系統通知回合結束
-        await push(ref(database, `rooms/${currentRoomId}/messages`), {
-            sender: '系統', 
-            text: '所有玩家已結束發言，進入下一階段！', 
-            type: 'public', 
-            timestamp: Date.now()
-        });
-    }
-}
-
-// -----------------------------------------------------------
-// ⚠️ 重要：手動將函式綁定到 window 物件，解決 onclick 找不到的問題
-// -----------------------------------------------------------
-
-console.log("🔗 正在綁定全域函式...");
-
-window.toggleMusic = toggleMusic;
+window.leaveRoom = leaveRoom;
+window.joinRoom = joinRoom;
 window.showCreateRoom = showCreateRoom;
-window.showJoinRoom = showJoinRoom;
+window.toggleMusic = toggleMusic;
+window.playMusic = playMusic;
+window.startGame = startGame;
+window.sendMessage = sendMessage;
+window.endTurn = endTurn;
 window.backToHome = backToHome;
 window.backToScriptType = backToScriptType;
 window.backToPlayerCount = backToPlayerCount;
 window.selectScriptType = selectScriptType;
 window.selectRoomSize = selectRoomSize;
-window.selectScript = selectScript; 
-window.joinRoom = joinRoom;
-window.startGame = startGame;
-window.sendMessage = sendMessage;
-window.leaveRoom = leaveRoom;
-window.vote = vote;
-window.endTurn = endTurn;
-
-console.log("✅ 全域函式綁定完成！");
-
-// 確保這一行在最後
-export { initializeFirebase };
+window.selectScript = selectScript;

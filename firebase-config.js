@@ -10,4 +10,4 @@ export const firebaseConfig = {
 };
 
 // 圖片配置
-export const IMAGE_BASE_URL = 'https://your-image-host.com/';
+export const IMAGE_BASE_URL = "./images/";
