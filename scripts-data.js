@@ -47,6 +47,7 @@ export const SCRIPTS = {
                 characters: [
                     {
                         name: "小雨",
+                        portrait: "char_bullying_rain.jpg",
                         role: "受害者好友",
                         background: "你是受害者的好友，目睹了全程。",
                         secret: "你其實很愧疚，因為當大家在群組嘲笑她時，你為了合群也發了一個貼圖。",
@@ -57,6 +58,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "阿傑",
+                        portrait: "char_bullying_jay.jpg",
                         role: "帶頭者",
                         background: "班上的意見領袖，覺得自己只是在「開玩笑」。",
                         secret: "你其實嫉妒小雨成績比你好，所以才帶頭排擠她。",
@@ -67,6 +69,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "王老師",
+                        portrait: "char_bullying_teacher.jpg",
                         role: "班導師",
                         background: "這學期剛接手這個班級。",
                         secret: "你早就發現班級群組氣氛怪怪的，但為了不想惹麻煩選擇無視。",
@@ -81,25 +84,25 @@ export const SCRIPTS = {
             {
                 id: "teen_3_outing",
                 title: "被公開的秘密",
-                description: "有人擅自公開了同學的性傾向。這是「八卦」還是「暴力」？",
+                description: "那是只發給「摯友」的綠色圈圈限動，卻在一夜之間傳遍全校。當隱私被當作流量，這是八卦還是暴力？",
                 duration: "25分鐘",
                 days: 1,
                 difficulty: "入門",
-                background: "班上的阿凱最近被指指點點，因為有人截圖了他的私人小帳，公開他是同志的事實。這是強制出櫃 (Outing)。",
+                background: "週一早晨，班級 LINE 群組突然炸鍋。一張阿凱參加遊行、披著彩虹旗的截圖被瘋狂轉發。問題是，那原本是阿凱 IG 上鎖、僅限 3 位摯友可見的限時動態。現在，阿凱站在教室門口，不敢走進去...",
                 specialVotes: [
-                    { label: "🌈 我們應該尊重隱私", value: "尊重隱私" }
+                    { label: "🌈 建立數位界線與尊重", value: "尊重隱私" }
                 ],
                 endings: {
                     "小琳": {
-                        title: "結局 A：八卦的代價 (Normal Ending)",
+                        title: "結局 A：流量的代價 (Normal Ending)",
                         type: "neutral",
-                        description: "散播截圖的小琳道歉了，但她堅持「我又沒說謊，這是事實」。阿凱受到了傷害，變得更封閉。",
+                        description: "雖然小琳道歉了，但她堅持「我又沒說謊，這是事實，網路上本來就沒有隱私」。阿凱受到了傷害，關閉了所有社群帳號，變得更加封閉。",
                         image: "ending_gossip.jpg"
                     },
                     "尊重隱私": {
                         title: "結局 B：擁抱多元 (True Ending)",
                         type: "good",
-                        description: "大家意識到「強制出櫃」是一種嚴重的暴力。班級約定尊重每個人的隱私與步調。阿凱感受到了接納。",
+                        description: "班級經過激辯，意識到「強制出櫃」即使內容是真實的，也是一種嚴重的暴力。大家約定不再轉發，並承諾尊重每個人的步調。阿凱在班長的陪伴下，終於走進了教室。",
                         image: "ending_rainbow.jpg"
                     }
                 },
@@ -107,45 +110,48 @@ export const SCRIPTS = {
                     {
                         day: 1,
                         phases: [
-                            { name: "早晨", duration: 300, type: "discussion", description: "是誰截圖的？" },
-                            { name: "下午", duration: 300, type: "discussion", description: "公開別人的秘密有錯嗎？" },
-                            { name: "傍晚", duration: 180, type: "voting", description: "誰該道歉？" }
+                            { name: "早晨", duration: 300, type: "discussion", description: "那個綠色圈圈是誰截的圖？" },
+                            { name: "下午", duration: 300, type: "discussion", description: "「我只是轉發」有錯嗎？" },
+                            { name: "傍晚", duration: 180, type: "voting", description: "誰該為這場風暴負責？" }
                         ]
                     }
                 ],
                 characters: [
                     {
                         name: "阿凱",
+                        portrait: "char_outing_kai.jpg",
                         role: "當事人",
-                        background: "安靜的男生，有個鎖起來的小帳。",
-                        secret: "你還沒準備好跟任何人說，現在覺得赤裸裸地被展示。",
+                        background: "班上安靜的男生，有個鎖起來的小帳，那是你唯一的避風港。",
+                        secret: "你來自傳統家庭，如果這張截圖傳到你爸媽眼裡，後果不堪設想。你現在感到赤裸、憤怒，且極度恐慌。",
                         clues: {
-                            "早晨_1": "我的小帳只有加三個最好的朋友，截圖一定從他們流出的。",
-                            "下午_1": "我不覺得我是同志有什麼錯，但我有權利決定什麼時候說。"
+                            "早晨_1": "我的摯友名單只有三個人，截圖一定就是從他們之中流出去的！我把他們當最好的朋友...",
+                            "下午_1": "這不是誠不誠實的問題！我有權利決定什麼時候、跟誰說這件事。現在全毀了。"
                         }
                     },
                     {
                         name: "小琳",
+                        portrait: "char_outing_lin.jpg",
                         role: "截圖者",
-                        background: "愛聊八卦。",
-                        secret: "是朋友給你看手機時你偷拍的。你覺得這很勁爆。",
+                        background: "班上的情報中心，經營一個兩千人追蹤的網美帳號，覺得「分享」是網路世代的本能。",
+                        secret: "其實是那天跟另一個朋友借手機看照片時，你順手截圖的。你覺得這張照片很酷、很勁爆，大家一定會瘋狂按讚。",
                         clues: {
-                            "早晨_1": "我只是覺得大家有權利知道啊。",
-                            "下午_1": "他又沒寫「禁止轉載」，網路上不就是這樣嗎？"
+                            "早晨_1": "哎唷，我只是覺得大家有權利知道真相啊。而且他也沒在照片上寫「禁止轉載」嘛。",
+                            "下午_1": "你們看，這篇貼文觸及率超高耶！大家都在討論他，他應該感謝我幫他紅了吧？"
                         }
                     },
                     {
                         name: "班長",
+                        portrait: "char_outing_leader.jpg",
                         role: "協調者",
-                        background: "想維持班級秩序。",
-                        secret: "你以前也拿別人的性傾向開過玩笑，現在在反省。",
+                        background: "責任感強，想維持班級秩序，但常常不知道界線在哪。",
+                        secret: "其實國中時你也曾跟著大家嘲笑過陰柔氣質的男生，那份愧疚感讓你現在特別想彌補，但又怕公親變事主。",
                         clues: {
-                            "早晨_1": "這不是誠實的問題，這是侵犯隱私。",
-                            "下午_1": "性傾向是個人的事，不應該成為八卦話題。"
+                            "早晨_1": "老師要我調查這件事，但我看阿凱的臉色都發白了...這已經不是一般的惡作劇了。",
+                            "下午_1": "把別人的隱私當作八卦話題，這跟拿刀刺人有什麼兩樣？我們不能再當旁觀者了。"
                         }
                     }
                 ],
-                questions: ["為什麼「強制出櫃」是一種傷害？"]
+                questions: ["如果內容是「事實」，公開它還算是一種傷害嗎？"]
             }
         ],
         4: [
@@ -187,6 +193,7 @@ export const SCRIPTS = {
                 characters: [
                     {
                         name: "小美",
+                        portrait: "char_photo_mei.jpg",
                         role: "受害者",
                         background: "照片主角，感到極度不安。",
                         secret: "你不想把事情鬧大，怕被說「太敏感」。",
@@ -194,6 +201,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "大明",
+                        portrait: "char_photo_ming.jpg",
                         role: "社長",
                         background: "想保護社團名聲。",
                         secret: "你知道偷拍者是你最好的朋友。",
@@ -201,6 +209,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "小華",
+                        portrait: "char_photo_hua.jpg",
                         role: "社員",
                         background: "正直的社員。",
                         secret: "你看到大明在偷偷刪除紀錄。",
@@ -208,6 +217,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "輔導老師",
+                        portrait: "char_photo_counselor.jpg",
                         role: "協助者",
                         background: "提供支援。",
                         secret: "這已經觸犯刑法。",
@@ -254,6 +264,7 @@ export const SCRIPTS = {
                 characters: [
                     {
                         name: "小剛",
+                        portrait: "char_catfish_gang.jpg",
                         role: "被騙者",
                         background: "付出真心卻被騙。",
                         secret: "你傳了私密照給對方，怕外流。",
@@ -261,6 +272,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "阿強",
+                        portrait: "char_catfish_qiang.jpg",
                         role: "假扮者",
                         background: "覺得無聊想整人。",
                         secret: "就是你創的假帳號。",
@@ -268,6 +280,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "小雅",
+                        portrait: "char_catfish_ya.jpg",
                         role: "被盜圖者",
                         background: "莫名其妙捲入。",
                         secret: "有人以為你真的在跟小剛交往。",
@@ -275,6 +288,7 @@ export const SCRIPTS = {
                     },
                     {
                         name: "老師",
+                        portrait: "char_catfish_teacher.jpg",
                         role: "調解者",
                         background: "處理糾紛。",
                         secret: "這涉及情感詐騙。",
@@ -323,30 +337,35 @@ export const SCRIPTS = {
                 characters: [
                     {
                         name: "小婷",
+                        portrait: "char_uniform_ting.jpg",
                         role: "抗議學生",
                         secret: "主任說「女生穿這樣會引人犯罪」。",
                         clues: { "早晨_1": "我長高了所以裙子變短。", "下午_1": "男生穿短褲就是陽光？" }
                     },
                     {
                         name: "林主任",
+                        portrait: "char_uniform_director.jpg",
                         role: "訓導主任",
                         secret: "覺得規定過時但怕家長。",
                         clues: { "早晨_1": "為了保護女生。", "下午_1": "開放會亂。" }
                     },
                     {
                         name: "阿強",
+                        portrait: "char_uniform_qiang.jpg",
                         role: "男同學",
                         secret: "發現自己有性別特權。",
                         clues: { "早晨_1": "我覺得她穿很普通。", "下午_1": "應該教男生尊重。" }
                     },
                     {
                         name: "學生會長",
+                        portrait: "char_uniform_president.jpg",
                         role: "改革者",
                         secret: "處分可能違法。",
                         clues: { "早晨_1": "教育部有規定。", "下午_1": "討論身體自主權。" }
                     },
                     {
                         name: "家長會長",
+                        portrait: "char_uniform_parent.jpg",
                         role: "保守派",
                         secret: "女兒也抱怨裙子熱。",
                         clues: { "早晨_1": "要有學生樣子。", "下午_1": "以後會不會染髮？" }
@@ -390,11 +409,11 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "小慧", role: "受害者", secret: "覺得被玷污。", clues: { "早晨_1": "我沒穿那件衣服。", "下午_1": "這是盜用身分。" } },
-                    { name: "阿光", role: "製作者", secret: "想試新App。", clues: { "早晨_1": "AI 很強。", "下午_1": "只是合成而已。" } },
-                    { name: "小明", role: "轉發者", secret: "轉到別班群組。", clues: { "早晨_1": "大家都在傳。", "下午_1": "以為是真的。" } },
-                    { name: "老師", role: "調查者", secret: "涉及散播猥褻物品。", clues: { "早晨_1": "造成極大傷害。", "下午_1": "製作有刑責。" } },
-                    { name: "科技小老師", role: "鑑識者", secret: "看出破綻。", clues: { "早晨_1": "邊緣模糊。", "下午_1": "查手機就知道。" } }
+                    { name: "小慧", portrait: "char_deepfake_hui.jpg", role: "受害者", secret: "覺得被玷污。", clues: { "早晨_1": "我沒穿那件衣服。", "下午_1": "這是盜用身分。" } },
+                    { name: "阿光", portrait: "char_deepfake_guang.jpg", role: "製作者", secret: "想試新App。", clues: { "早晨_1": "AI 很強。", "下午_1": "只是合成而已。" } },
+                    { name: "小明", portrait: "char_deepfake_ming.jpg", role: "轉發者", secret: "轉到別班群組。", clues: { "早晨_1": "大家都在傳。", "下午_1": "以為是真的。" } },
+                    { name: "老師", portrait: "char_deepfake_teacher.jpg", role: "調查者", secret: "涉及散播猥褻物品。", clues: { "早晨_1": "造成極大傷害。", "下午_1": "製作有刑責。" } },
+                    { name: "科技小老師", portrait: "char_deepfake_tech.jpg", role: "鑑識者", secret: "看出破綻。", clues: { "早晨_1": "邊緣模糊。", "下午_1": "查手機就知道。" } }
                 ],
                 questions: ["用 AI 合成別人的私密照，為什麼也算是性暴力？"]
             }
@@ -436,12 +455,12 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "小櫻", role: "受害者", secret: "有錄音檔。", clues: { "早晨_1": "玩輸出被罵。", "下午_1": "這是錄音檔。" } },
-                    { name: "阿威", role: "會長", secret: "騷擾者是主力。", clues: { "早晨_1": "遊戲圈講話衝。", "下午_1": "踢了會輸公會戰。" } },
-                    { name: "小杰", role: "旁觀玩家", secret: "跟著笑很後悔。", clues: { "早晨_1": "氣氛很嗨。", "下午_1": "真的很過分。" } },
-                    { name: "版主", role: "管理者", secret: "很少執行規範。", clues: { "早晨_1": "可以封鎖帳號。", "下午_1": "不能成為法外之地。" } },
-                    { name: "騷擾者", role: "加害者", secret: "現實很自卑。", clues: { "早晨_1": "幹嘛認真？", "下午_1": "是她自己開麥。" } },
-                    { name: "老玩家", role: "觀察者", secret: "以前也遇過。", clues: { "早晨_1": "到處都有。", "下午_1": "該改變文化了。" } }
+                    { name: "小櫻", portrait: "char_game_sakura.jpg", role: "受害者", secret: "有錄音檔。", clues: { "早晨_1": "玩輸出被罵。", "下午_1": "這是錄音檔。" } },
+                    { name: "阿威", portrait: "char_game_wei.jpg", role: "會長", secret: "騷擾者是主力。", clues: { "早晨_1": "遊戲圈講話衝。", "下午_1": "踢了會輸公會戰。" } },
+                    { name: "小杰", portrait: "char_game_jie.jpg", role: "旁觀玩家", secret: "跟著笑很後悔。", clues: { "早晨_1": "氣氛很嗨。", "下午_1": "真的很過分。" } },
+                    { name: "版主", portrait: "char_game_admin.jpg", role: "管理者", secret: "很少執行規範。", clues: { "早晨_1": "可以封鎖帳號。", "下午_1": "不能成為法外之地。" } },
+                    { name: "騷擾者", portrait: "char_game_harasser.jpg", role: "加害者", secret: "現實很自卑。", clues: { "早晨_1": "幹嘛認真？", "下午_1": "是她自己開麥。" } },
+                    { name: "老玩家", portrait: "char_game_veteran.jpg", role: "觀察者", secret: "以前也遇過。", clues: { "早晨_1": "到處都有。", "下午_1": "該改變文化了。" } }
                 ],
                 questions: ["虛擬世界的性騷擾會造成真實的心理創傷嗎？"]
             },
@@ -481,12 +500,12 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "小編", role: "管理者", secret: "為了流量放行。", clues: { "早晨_1": "看不完投稿。", "下午_1": "越吵流量越高。" } },
-                    { name: "女權隊長", role: "抗議者", secret: "也投稿罵男生。", clues: { "早晨_1": "這是性騷擾。", "下午_1": "不能容忍厭女。" } },
-                    { name: "酸民代表", role: "投稿者", secret: "被女生拒絕。", clues: { "早晨_1": "言論自由。", "下午_1": "我說的是事實。" } },
-                    { name: "和事佬", role: "調解者", secret: "知道是誰。", clues: { "早晨_1": "不要激動。", "下午_1": "大家誤會了。" } },
-                    { name: "吃瓜群眾", role: "旁觀者", secret: "每篇都按讚。", clues: { "早晨_1": "好精彩。", "下午_1": "按讚不犯法。" } },
-                    { name: "資訊社", role: "技術支援", secret: "來自同IP。", clues: { "早晨_1": "像是分身。", "下午_1": "可以查學校WiFi。" } }
+                    { name: "小編", portrait: "char_anon_editor.jpg", role: "管理者", secret: "為了流量放行。", clues: { "早晨_1": "看不完投稿。", "下午_1": "越吵流量越高。" } },
+                    { name: "女權隊長", portrait: "char_anon_feminist.jpg", role: "抗議者", secret: "也投稿罵男生。", clues: { "早晨_1": "這是性騷擾。", "下午_1": "不能容忍厭女。" } },
+                    { name: "酸民代表", portrait: "char_anon_hater.jpg", role: "投稿者", secret: "被女生拒絕。", clues: { "早晨_1": "言論自由。", "下午_1": "我說的是事實。" } },
+                    { name: "和事佬", portrait: "char_anon_peace.jpg", role: "調解者", secret: "知道是誰。", clues: { "早晨_1": "不要激動。", "下午_1": "大家誤會了。" } },
+                    { name: "吃瓜群眾", portrait: "char_anon_watcher.jpg", role: "旁觀者", secret: "每篇都按讚。", clues: { "早晨_1": "好精彩。", "下午_1": "按讚不犯法。" } },
+                    { name: "資訊社", portrait: "char_anon_it.jpg", role: "技術支援", secret: "來自同IP。", clues: { "早晨_1": "像是分身。", "下午_1": "可以查學校WiFi。" } }
                 ],
                 questions: ["言論自由包含仇恨言論嗎？"]
             }
@@ -530,9 +549,9 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "林雅婷", role: "檢舉人", secret: "人資暗示閉嘴。", clues: { "早晨_1": "開會时不舒服接觸。", "下午_1": "錄音：大局為重。" } },
-                    { name: "王大為", role: "嫌疑人", secret: "公司會保你。", clues: { "早晨_1": "只是鼓勵。", "下午_1": "老闆看重我。" } },
-                    { name: "人資總監", role: "公司代表", secret: "高層施壓。", clues: { "早晨_1": "她壓力大。", "下午_1": "影響股價。" } }
+                    { name: "林雅婷", portrait: "char_work_lin.jpg", role: "檢舉人", secret: "人資暗示閉嘴。", clues: { "早晨_1": "開會时不舒服接觸。", "下午_1": "錄音：大局為重。" } },
+                    { name: "王大為", portrait: "char_work_wang.jpg", role: "嫌疑人", secret: "公司會保你。", clues: { "早晨_1": "只是鼓勵。", "下午_1": "老闆看重我。" } },
+                    { name: "人資總監", portrait: "char_work_hr.jpg", role: "公司代表", secret: "高層施壓。", clues: { "早晨_1": "她壓力大。", "下午_1": "影響股價。" } }
                 ],
                 questions: ["旁觀者在職場性騷擾中可以扮演什麼角色？"]
             },
@@ -572,9 +591,9 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "小安", role: "妻子", secret: "門鎖紀錄被監控。", clues: { "早晨_1": "他知道我幾點回家。", "下午_1": "手機發燙。" } },
-                    { name: "丈夫", role: "控制者", secret: "裝了定位App。", clues: { "早晨_1": "關心安全。", "下午_1": "智慧家電有紀錄。" } },
-                    { name: "閨蜜", role: "協助者", secret: "對話被竊聽。", clues: { "早晨_1": "他知道我們喝咖啡。", "下午_1": "數位監獄。" } }
+                    { name: "小安", portrait: "char_smart_ann.jpg", role: "妻子", secret: "門鎖紀錄被監控。", clues: { "早晨_1": "他知道我幾點回家。", "下午_1": "手機發燙。" } },
+                    { name: "丈夫", portrait: "char_smart_husband.jpg", role: "控制者", secret: "裝了定位App。", clues: { "早晨_1": "關心安全。", "下午_1": "智慧家電有紀錄。" } },
+                    { name: "閨蜜", portrait: "char_smart_friend.jpg", role: "協助者", secret: "對話被竊聽。", clues: { "早晨_1": "他知道我們喝咖啡。", "下午_1": "數位監獄。" } }
                 ],
                 questions: ["科技便利與隱私監控的界線在哪？"]
             }
@@ -615,10 +634,10 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "Alex", role: "受害者", secret: "試圖修正演算法。", clues: { "上午_1": "主管叫錯名字。", "下午_2": "影片語氣像 Sam。" } },
-                    { name: "Chris", role: "經理", secret: "包庇 Sam。", clues: { "上午_1": "Alex 影響士氣。", "下午_2": "照片是假的。" } },
-                    { name: "Sam", role: "工程師", secret: "私用數據。", clues: { "上午_1": "代碼註解。", "上午_2": "深夜上傳數據。" } },
-                    { name: "Taylor", role: "旁觀者", secret: "有 Log 備份。", clues: { "下午_1": "IP 來自內部。", "下午_2": "我有備份。" } }
+                    { name: "Alex", portrait: "char_lab_alex.jpg", role: "受害者", secret: "試圖修正演算法。", clues: { "上午_1": "主管叫錯名字。", "下午_2": "影片語氣像 Sam。" } },
+                    { name: "Chris", portrait: "char_lab_chris.jpg", role: "經理", secret: "包庇 Sam。", clues: { "上午_1": "Alex 影響士氣。", "下午_2": "照片是假的。" } },
+                    { name: "Sam", portrait: "char_lab_sam.jpg", role: "工程師", secret: "私用數據。", clues: { "上午_1": "代碼註解。", "上午_2": "深夜上傳數據。" } },
+                    { name: "Taylor", portrait: "char_lab_taylor.jpg", role: "旁觀者", secret: "有 Log 備份。", clues: { "下午_1": "IP 來自內部。", "下午_2": "我有備份。" } }
                 ],
                 questions: ["當 AI 放大偏見時，誰該負責？"]
             },
@@ -658,10 +677,10 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "張小惠", role: "受害者", secret: "沒錢不敢走。", clues: { "早晨_1": "他求我原諒。", "下午_1": "威脅帶走孩子。" } },
-                    { name: "張建國", role: "丈夫", secret: "控制慾強。", clues: { "早晨_1": "她精神不穩。", "下午_1": "乖乖聽話就好。" } },
-                    { name: "王社工", role: "協助者", secret: "經濟控制。", clues: { "早晨_1": "每個月都有意外。", "下午_1": "精神虐待。" } },
-                    { name: "李鄰居", role: "旁觀者", secret: "以前覺得是家務事。", clues: { "早晨_1": "聽到大吼。", "下午_1": "穿長袖遮傷。" } }
+                    { name: "張小惠", portrait: "char_domestic_hui.jpg", role: "受害者", secret: "沒錢不敢走。", clues: { "早晨_1": "他求我原諒。", "下午_1": "威脅帶走孩子。" } },
+                    { name: "張建國", portrait: "char_domestic_husband.jpg", role: "丈夫", secret: "控制慾強。", clues: { "早晨_1": "她精神不穩。", "下午_1": "乖乖聽話就好。" } },
+                    { name: "王社工", portrait: "char_domestic_worker.jpg", role: "協助者", secret: "經濟控制。", clues: { "早晨_1": "每個月都有意外。", "下午_1": "精神虐待。" } },
+                    { name: "李鄰居", portrait: "char_domestic_neighbor.jpg", role: "旁觀者", secret: "以前覺得是家務事。", clues: { "早晨_1": "聽到大吼。", "下午_1": "穿長袖遮傷。" } }
                 ],
                 questions: ["為什麼「經濟獨立」對家暴受害者這麼重要？"]
             }
@@ -693,11 +712,11 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "小美", role: "控訴者", secret: "自責喝醉。", clues: { "上午_1": "想回家。", "下午_1": "沒印象點頭。" } },
-                    { name: "阿傑", role: "被告", secret: "沒說不就是好。", clues: { "上午_1": "沒推開。", "下午_1": "跟我去房間。" } },
-                    { name: "小華", role: "目擊者", secret: "像屍體。", clues: { "上午_1": "站不穩。", "下午_1": "撿屍。" } },
-                    { name: "諮商師", role: "專家", secret: "不是個案。", clues: { "上午_1": "積極同意。", "下午_1": "無法同意。" } },
-                    { name: "會長", role: "學生代表", secret: "學校想壓。", clues: { "上午_1": "怕影響校譽。", "下午_1": "性平教育。" } }
+                    { name: "小美", portrait: "char_party_mei.jpg", role: "控訴者", secret: "自責喝醉。", clues: { "上午_1": "想回家。", "下午_1": "沒印象點頭。" } },
+                    { name: "阿傑", portrait: "char_party_jay.jpg", role: "被告", secret: "沒說不就是好。", clues: { "上午_1": "沒推開。", "下午_1": "跟我去房間。" } },
+                    { name: "小華", portrait: "char_party_hua.jpg", role: "目擊者", secret: "像屍體。", clues: { "上午_1": "站不穩。", "下午_1": "撿屍。" } },
+                    { name: "諮商師", portrait: "char_party_therapist.jpg", role: "專家", secret: "不是個案。", clues: { "上午_1": "積極同意。", "下午_1": "無法同意。" } },
+                    { name: "會長", portrait: "char_party_president.jpg", role: "學生代表", secret: "學校想壓。", clues: { "上午_1": "怕影響校譽。", "下午_1": "性平教育。" } }
                 ],
                 questions: ["什麼是「積極同意」？"]
             },
@@ -737,11 +756,11 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "受害者", role: "使用者", secret: "只開了一下。", clues: { "上午_1": "你家燈亮了。", "下午_1": "預設開啟。" } },
-                    { name: "跟蹤狂", role: "加害者", secret: "三角定位。", clues: { "上午_1": "100公尺內。", "下午_1": "系統告訴我的。" } },
-                    { name: "工程師", role: "開發者", secret: "知道風險。", clues: { "上午_1": "配對率高。", "下午_1": "精確度太高。" } },
-                    { name: "法務", role: "公司代表", secret: "條款免責。", clues: { "上午_1": "自負風險。", "下午_1": "只是平台。" } },
-                    { name: "警官", role: "調查員", secret: "新興犯罪。", clues: { "上午_1": "規範不足。", "下午_1": "設計問題。" } }
+                    { name: "受害者", portrait: "char_dating_victim.jpg", role: "使用者", secret: "只開了一下。", clues: { "上午_1": "你家燈亮了。", "下午_1": "預設開啟。" } },
+                    { name: "跟蹤狂", portrait: "char_dating_stalker.jpg", role: "加害者", secret: "三角定位。", clues: { "上午_1": "100公尺內。", "下午_1": "系統告訴我的。" } },
+                    { name: "工程師", portrait: "char_dating_dev.jpg", role: "開發者", secret: "知道風險。", clues: { "上午_1": "配對率高。", "下午_1": "精確度太高。" } },
+                    { name: "法務", portrait: "char_dating_legal.jpg", role: "公司代表", secret: "條款免責。", clues: { "上午_1": "自負風險。", "下午_1": "只是平台。" } },
+                    { name: "警官", portrait: "char_dating_police.jpg", role: "調查員", secret: "新興犯罪。", clues: { "上午_1": "規範不足。", "下午_1": "設計問題。" } }
                 ],
                 questions: ["App 設計者是否應該為用戶的安全負責？"]
             }
@@ -773,12 +792,12 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "陳曉雯", role: "受害者", secret: "朋友也傳。", clues: { "上午_1": "不敢出門。", "下午_1": "求載點。" } },
-                    { name: "前男友", role: "始作俑者", secret: "怕坐牢。", clues: { "上午_1": "她自己愛拍。", "下午_1": "我都刪了。" } },
-                    { name: "論壇站主", role: "平台", secret: "賺廣告費。", clues: { "上午_1": "免責聲明。", "下午_1": "流量。" } },
-                    { name: "網友A", role: "鍵盤俠", secret: "沒什麼。", clues: { "上午_1": "不差我。", "下午_1": "如果是我家人。" } },
-                    { name: "警察", role: "調查員", secret: "伺服器在國外。", clues: { "上午_1": "猥褻物品。", "下午_1": "抓不勝抓。" } },
-                    { name: "律師", role: "協助者", secret: "推動修法。", clues: { "上午_1": "性暴力。", "下午_1": "告平台。" } }
+                    { name: "陳曉雯", portrait: "char_footprint_wen.jpg", role: "受害者", secret: "朋友也傳。", clues: { "上午_1": "不敢出門。", "下午_1": "求載點。" } },
+                    { name: "前男友", portrait: "char_footprint_ex.jpg", role: "始作俑者", secret: "怕坐牢。", clues: { "上午_1": "她自己愛拍。", "下午_1": "我都刪了。" } },
+                    { name: "論壇站主", portrait: "char_footprint_admin.jpg", role: "平台", secret: "賺廣告費。", clues: { "上午_1": "免責聲明。", "下午_1": "流量。" } },
+                    { name: "網友A", portrait: "char_footprint_netizen.jpg", role: "鍵盤俠", secret: "沒什麼。", clues: { "上午_1": "不差我。", "下午_1": "如果是我家人。" } },
+                    { name: "警察", portrait: "char_footprint_police.jpg", role: "調查員", secret: "伺服器在國外。", clues: { "上午_1": "猥褻物品。", "下午_1": "抓不勝抓。" } },
+                    { name: "律師", portrait: "char_footprint_lawyer.jpg", role: "協助者", secret: "推動修法。", clues: { "上午_1": "性暴力。", "下午_1": "告平台。" } }
                 ],
                 questions: ["轉發私密照為什麼也是性暴力？"]
             },
@@ -818,12 +837,12 @@ export const SCRIPTS = {
                     }
                 ],
                 characters: [
-                    { name: "受害者", role: "玩家", secret: "觸覺回饋。", clues: { "早晨_1": "圍住我。", "下午_1": "像真實一樣。" } },
-                    { name: "加害者", role: "玩家", secret: "只是玩。", clues: { "早晨_1": "沒碰真人。", "下午_1": "遊戲而已。" } },
-                    { name: "平台管理員", role: "官方", secret: "設計疏失。", clues: { "早晨_1": "有靜音。", "下午_1": "用戶互動。" } },
-                    { name: "心理學家", role: "專家", secret: "騙過大腦。", clues: { "早晨_1": "沉浸感。", "下午_1": "PTSD。" } },
-                    { name: "律師", role: "法律人", secret: "挑戰法律。", clues: { "早晨_1": "公然侮辱。", "下午_1": "數位身體權。" } },
-                    { name: "目擊者", role: "路人", secret: "有錄影。", clues: { "早晨_1": "很暴力。", "下午_1": "怕下一個是我。" } }
+                    { name: "受害者", portrait: "char_meta_victim.jpg", role: "玩家", secret: "觸覺回饋。", clues: { "早晨_1": "圍住我。", "下午_1": "像真實一樣。" } },
+                    { name: "加害者", portrait: "char_meta_attacker.jpg", role: "玩家", secret: "只是玩。", clues: { "早晨_1": "沒碰真人。", "下午_1": "遊戲而已。" } },
+                    { name: "平台管理員", portrait: "char_meta_admin.jpg", role: "官方", secret: "設計疏失。", clues: { "早晨_1": "有靜音。", "下午_1": "用戶互動。" } },
+                    { name: "心理學家", portrait: "char_meta_psych.jpg", role: "專家", secret: "騙過大腦。", clues: { "早晨_1": "沉浸感。", "下午_1": "PTSD。" } },
+                    { name: "律師", portrait: "char_meta_lawyer.jpg", role: "法律人", secret: "挑戰法律。", clues: { "早晨_1": "公然侮辱。", "下午_1": "數位身體權。" } },
+                    { name: "目擊者", portrait: "char_meta_witness.jpg", role: "路人", secret: "有錄影。", clues: { "早晨_1": "很暴力。", "下午_1": "怕下一個是我。" } }
                 ],
                 questions: ["如果身體沒有受傷，心理的創傷算犯罪嗎？"]
             }

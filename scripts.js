@@ -8,6 +8,7 @@ let app, database;
 let currentRoomId = null;
 let currentPlayerId = null;
 let currentPlayerName = null;
+let allPlayers = {}; // 用於儲存房間內所有玩家資訊，供聊天室查詢角色與頭像
 let isHost = false;
 let selectedRoomSize = null;
 let selectedScriptType = null;
@@ -86,7 +87,7 @@ function bindEvents() {
     });
 }
 
-// 切換公/私聊 (JS 邏輯)
+// 切換公/私聊
 function toggleMsgType() {
     const btn = document.getElementById('btnMessageType');
     const input = document.getElementById('msgTypeInput');
@@ -97,7 +98,6 @@ function toggleMsgType() {
         btn.textContent = '🔒 私聊';
         btn.classList.add('active');
         targetBtn.style.display = 'flex';
-        // 自動打開選單
         const menu = document.getElementById('targetMenu');
         menu.classList.add('show');
     } else {
@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMusicRoom(); 
 });
 
-// --- 大廳渲染 (美化版) ---
 function updatePlayersList(players, max) {
     const list = document.getElementById('playersList');
     list.innerHTML = '';
@@ -151,7 +150,6 @@ function updatePlayersList(players, max) {
     }
 }
 
-// --- 私聊選單更新 ---
 function updatePrivateTargets(players) {
     const menu = document.getElementById('targetMenu');
     if (!menu) return;
@@ -170,10 +168,6 @@ function updatePrivateTargets(players) {
         }
     });
 }
-
-// --- 其餘函式保持不變 (initMusicRoom, showMusicRoom, playMusic...) ---
-// (為了版面整潔，此處省略中間重複的函式，請保留您原本的代碼，
-//  但務必確保 sendMessage 使用了新的 input id 讀取方式如下)
 
 function initMusicRoom() {
     const container = document.getElementById('fullMusicList');
@@ -199,18 +193,87 @@ function initMusicRoom() {
 
 function showMusicRoom() { switchScreen('musicScreen'); }
 
+// 1. 新增一個輔助函式：把秒數轉為 00:00 格式
+function formatTime(seconds) {
+    if (!seconds || isNaN(seconds)) return "00:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+// 2. 修改原本的 playMusic 函式
 function playMusic(trackNameOrScriptId, isScriptId = false) {
-    if (currentMusic) { currentMusic.pause(); currentMusic.currentTime = 0; currentMusic = null; }
-    if (!isMusicPlaying) return;
+    currentTrackName = trackNameOrScriptId;
+    
+    // 清除舊音樂
+    if (currentMusic) { 
+        currentMusic.pause(); 
+        currentMusic.currentTime = 0; 
+        currentMusic = null; 
+    }
+    
+    // 取得 UI 元素
+    const playerDiv = document.getElementById('miniPlayer');
+    const titleEl = document.getElementById('playerTitle');
+    const timeEl = document.getElementById('playerTime');
+    const progressBar = document.getElementById('progressBar');
+
+    // 取得音樂路徑
     let trackUrl = isScriptId ? getScriptMusic(trackNameOrScriptId) : MUSIC_CONFIG[trackNameOrScriptId];
+    
+    // 設定顯示名稱 (如果有找到對應名稱就顯示，不然顯示預設)
+    // 這裡做個簡單判斷，如果是基礎音樂就查基礎名稱
+    let displayName = "正在播放...";
+    if(!isScriptId) {
+        // 簡單對應 (如果要更完整，可以建立一個對照表)
+        if(trackNameOrScriptId === 'home') displayName = "首頁：歡迎光臨";
+        else if(trackNameOrScriptId === 'lobby') displayName = "大廳：懸疑等待";
+        else if(trackNameOrScriptId === 'victory') displayName = "結局：勝利";
+        else if(trackNameOrScriptId === 'sad_ending') displayName = "結局：遺憾";
+    } else {
+        displayName = "劇本情境音樂"; // 劇本音樂暫時統稱，也可依需求優化
+    }
+
+    if (!isMusicPlaying) {
+        // 如果是靜音模式，隱藏播放器或顯示「靜音中」
+        if(playerDiv) playerDiv.style.display = 'none';
+        return;
+    }
+
     if (trackUrl) {
         currentMusic = new Audio(trackUrl);
         currentMusic.loop = true;
         currentMusic.volume = 0.3;
+
+        // 🔥 顯示播放器 UI
+        if (playerDiv) {
+            playerDiv.style.display = 'block';
+            titleEl.textContent = displayName;
+            progressBar.value = 0;
+        }
+
+        // 🔥 綁定進度條更新事件 (音樂播放時，自動更新拉桿)
+        currentMusic.addEventListener('timeupdate', () => {
+            if (!isNaN(currentMusic.duration)) {
+                // 計算百分比
+                const percent = (currentMusic.currentTime / currentMusic.duration) * 100;
+                progressBar.value = percent;
+                // 更新時間文字
+                timeEl.textContent = `${formatTime(currentMusic.currentTime)} / ${formatTime(currentMusic.duration)}`;
+            }
+        });
+
+        // 🔥 綁定拉桿拖動事件 (使用者拉動時，跳轉音樂)
+        progressBar.oninput = function() {
+            if (currentMusic && !isNaN(currentMusic.duration)) {
+                const seekTime = (this.value / 100) * currentMusic.duration;
+                currentMusic.currentTime = seekTime;
+            }
+        };
+
         currentMusic.play().catch(err => console.log('Autoplay blocked'));
     }
 }
-
 function toggleMusic() {
     const btn = document.getElementById('musicToggle');
     isMusicPlaying = !isMusicPlaying;
@@ -367,6 +430,12 @@ function listenToRoom() {
     onValue(ref(database, `rooms/${currentRoomId}`), (snapshot) => {
         const room = snapshot.val();
         if (!room) { alert('房間已關閉 👋'); location.reload(); return; }
+        
+        // 更新全域玩家列表，供聊天室使用
+        if (room.players) {
+            allPlayers = room.players;
+        }
+
         if (room.players && room.players[currentPlayerId]?.kicked) { alert('你已被移出 🚫'); location.reload(); return; }
         if (room.status === 'waiting' && room.players && !room.players[currentPlayerId]) { alert('你已被移出'); location.reload(); return; }
         if (isHost) checkAndDestroyEmptyRoom(room);
@@ -481,7 +550,6 @@ function showCharacterClue(character, phaseName, day) {
     }
 }
 
-function showEvent(content) { /* Same */ }
 function startPhaseTimer(seconds, day, pIndex, totalP) { 
     let timeLeft = seconds;
     const timerDiv = document.getElementById('timer');
@@ -510,11 +578,10 @@ function startPhaseTimer(seconds, day, pIndex, totalP) {
     }, 1000);
 }
 
-// 修正：讀取自定義選單的 input
 async function sendMessage() {
     const input = document.getElementById('messageInput');
-    const type = document.getElementById('msgTypeInput').value; // 修改
-    const target = document.getElementById('privateTargetInput').value; // 修改
+    const type = document.getElementById('msgTypeInput').value;
+    const target = document.getElementById('privateTargetInput').value;
     
     if (!input.value.trim()) return;
     if (type === 'private' && !target) { alert('請選擇私聊對象'); return; }
@@ -526,23 +593,64 @@ async function sendMessage() {
     input.value = '';
 }
 
+// 聊天室更新核心 (含頭像與角色名)
 function updateChat(msgs) {
     const box = document.getElementById('chatContainer');
     box.innerHTML = '';
+    
     Object.values(msgs).sort((a,b) => a.timestamp - b.timestamp).forEach(m => {
-        if (m.type === 'private') {
+        // 私聊權限檢查
+        const isPrivate = m.type === 'private';
+        if (isPrivate) {
             if (m.sender !== currentPlayerName && m.target !== currentPlayerName) return;
         }
-        const div = document.createElement('div');
-        div.className = 'message';
-        let displayText = `<div class="sender">${m.sender}</div>`;
-        if (m.type === 'private') {
-            div.style.backgroundColor = '#fff3e0';
-            div.style.borderLeft = '3px solid #ff9800';
-            displayText = `<div class="sender" style="color: #ff6f00;">🔒 ${m.sender === currentPlayerName ? `你 → ${m.target}` : `${m.sender} (私訊)`}</div>`;
+
+        // 查找發送者的玩家資料以獲取角色資訊
+        // 注意：這裡假設 sender 是玩家暱稱。系統訊息 sender 為 '系統'
+        const senderPlayer = Object.values(allPlayers).find(p => p.name === m.sender);
+        const charName = senderPlayer?.character?.name || '';
+        const avatarUrl = senderPlayer?.character?.portrait 
+            ? IMAGE_BASE_URL + senderPlayer.character.portrait 
+            : null; 
+
+        // 建立容器
+        const msgContainer = document.createElement('div');
+        msgContainer.className = 'message-container';
+        
+        // 判斷是否為自己發送
+        const isMe = m.sender === currentPlayerName;
+        if (isMe) msgContainer.classList.add('me');
+
+        // 準備頭像 HTML
+        let avatarHtml = '';
+        if (m.sender === '系統') {
+            avatarHtml = `<div class="chat-avatar system-avatar">📢</div>`;
+        } else if (avatarUrl) {
+            avatarHtml = `<img src="${avatarUrl}" class="chat-avatar" alt="${charName}">`;
+        } else {
+            // 沒有頭像時的預設顯示 (顯示名字首字)
+            avatarHtml = `<div class="chat-avatar default-avatar">${m.sender[0]}</div>`;
         }
-        div.innerHTML = `${displayText}<div>${m.text}</div>`;
-        box.appendChild(div);
+
+        // 準備顯示名稱 (玩家名 + 角色名)
+        let displayName = m.sender;
+        if (charName) {
+            displayName += ` <span class="char-label">(${charName})</span>`;
+        }
+        if (isPrivate) {
+             displayName = isMe ? `你 🔒 To: ${m.target}` : `${m.sender} 🔒 (私訊)`;
+        }
+
+        // 組合 HTML
+        msgContainer.innerHTML = `
+            ${avatarHtml}
+            <div class="message-content-wrapper">
+                <div class="message-sender">${displayName}</div>
+                <div class="message-bubble ${isPrivate ? 'private' : ''}">${m.text}</div>
+            </div>
+        `;
+
+        box.appendChild(msgContainer);
     });
     box.scrollTop = box.scrollHeight;
 }
