@@ -271,7 +271,28 @@ function playMusic(trackNameOrScriptId, isScriptId = false) {
             }
         };
 
-        currentMusic.play().catch(err => console.log('Autoplay blocked'));
+        // --- ✂️ 開始複製 ✂️ ---
+var playPromise = currentMusic.play();
+
+if (playPromise !== undefined) {
+    playPromise.catch(error => {
+        console.log('自動播放被瀏覽器阻擋 (正常現象)，等待使用者互動...');
+        
+        // 定義一個「點擊後播放」的函式
+        const resumeAudio = () => {
+            if (currentMusic && isMusicPlaying) {
+                currentMusic.play();
+            }
+            // 播放成功後，把自己移除，避免以後亂觸發
+            document.removeEventListener('click', resumeAudio);
+            document.removeEventListener('touchstart', resumeAudio);
+        };
+
+        // 監聽整個網頁，使用者只要點一下（或滑一下手機），音樂就會解鎖播放
+        document.addEventListener('click', resumeAudio);
+        document.addEventListener('touchstart', resumeAudio);
+    });
+}
     }
 }
 function toggleMusic() {
