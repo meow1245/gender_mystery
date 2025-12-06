@@ -180,7 +180,7 @@ function initMusicRoom() {
     ];
     let html = '<h4>🎵 基礎音效</h4>';
     basics.forEach(m => { html += `<div class="music-row" onclick="window.playMusic('${m.key}')"><div class="music-info"><span class="music-name">${m.name}</span><span class="music-desc">${m.desc}</span></div><span class="music-play-icon">▶</span></div>`; });
-    html += '<h4 style="margin-top:15px;">📂 案件 BGM</h4>';
+    html += '<h4 style="margin-top:15px;">📂 案件 音樂</h4>';
     ['teen', 'adult'].forEach(type => {
         for (const size in SCRIPTS[type]) {
             SCRIPTS[type][size].forEach(script => {
@@ -226,12 +226,51 @@ function playMusic(trackNameOrScriptId, isScriptId = false) {
     let displayName = "正在播放...";
     if(!isScriptId) {
         // 簡單對應 (如果要更完整，可以建立一個對照表)
-        if(trackNameOrScriptId === 'home') displayName = "首頁：歡迎光臨";
+        if(trackNameOrScriptId === 'home') displayName = "首頁：歡迎光臨這七彩的世界";
         else if(trackNameOrScriptId === 'lobby') displayName = "大廳：懸疑等待";
         else if(trackNameOrScriptId === 'victory') displayName = "結局：勝利";
         else if(trackNameOrScriptId === 'sad_ending') displayName = "結局：遺憾";
     } else {
-        displayName = "劇本情境音樂"; // 劇本音樂暫時統稱，也可依需求優化
+        // --- 劇本專屬歌名對照表 (依據 scripts-data.js 主題設計) ---
+        const scriptSongNames = {
+            // 🌱 未成年/校園組
+            "teen_3_bullying": "音樂：孤獨的鐘聲",       // 沉默的共犯
+            "teen_3_outing":   "音樂：失控的擴散",       // 被公開的秘密 (Outing)
+            "teen_4_photo":    "音樂：鏡頭後的視線",     // 鏡頭下的秘密 (偷拍)
+            "teen_4_catfish":  "音樂：虛擬的假面",       // 假面騎士 (網戀詐騙)
+            "teen_5_uniform":  "音樂：制服下的自由",     // 裙襬戰爭
+            "teen_5_deepfake": "音樂：被竊取的容顏",     // AI 換臉
+            "teen_6_game":     "音樂：斷線的麥克風",     // 遊戲語音騷擾
+            "teen_6_anonymous":"音樂：匿名牆的陰影",     // 匿名仇恨言論
+
+            // 💼 成年/社會組
+            "adult_3_workplace":     "音樂：玻璃天花板",    // 職場性騷擾
+            "adult_3_smart_control": "音樂：智慧的牢籠",    // 數位家暴監控
+            "gender_tech_lab_mystery":"音樂：演算法的偏誤",  // 數據偏見
+            "adult_4_domestic":      "音樂：無聲的風暴",    // 家暴與經濟控制
+            "adult_5_party":         "音樂：迷離的記憶",    // 派對與合意
+            "adult_5_dating_app":    "音樂：計算出的陷阱",  // 交友軟體跟蹤
+            "adult_6_digital_footprint":"音樂：無法刪除的烙印", // 數位足跡
+            "adult_6_metaverse":     "音樂：觸不到的傷痕"    // 元宇宙騷擾
+        };
+
+        if (scriptSongNames[trackNameOrScriptId]) {
+            displayName = scriptSongNames[trackNameOrScriptId];
+        } else {
+            // 如果沒在上面定義到，嘗試自動抓取劇本標題
+            let foundScript = null;
+            // 遍歷所有劇本來找標題
+            ['teen', 'adult'].forEach(type => {
+                if (SCRIPTS[type]) {
+                    Object.values(SCRIPTS[type]).forEach(sizeArray => {
+                        const target = sizeArray.find(s => s.id === trackNameOrScriptId);
+                        if (target) foundScript = target;
+                    });
+                }
+            });
+            displayName = foundScript ? `劇本：${foundScript.title}` : "劇本情境音樂";
+        }
+
     }
 
     if (!isMusicPlaying) {
