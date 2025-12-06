@@ -74,6 +74,46 @@ button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; background
 .music-name { font-weight: bold; color: var(--text-color); }
 .music-desc { font-size: 0.8rem; color: #888; }
 .music-play-icon { color: var(--primary); font-size: 1.2rem; }
+
+/* --- 頂部導航列樣式 --- */
+.nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 左中右分散對齊 */
+    margin-bottom: 20px;
+    padding: 0 5px;
+}
+
+/* 返回按鈕：可愛膠囊版 */
+.btn-nav-back {
+    background: #fff0f5;       /* 淺粉色背景 (LavenderBlush) */
+    border: 1px solid #ffc1e3; /* 深一點的粉色邊框 */
+    border-radius: 20px;       /* 圓潤的膠囊形狀 */
+    padding: 6px 15px;         /* 內距撐開空間 */
+    font-size: 0.9rem;         /* 字體大小 */
+    color: #6c5ce7;            /* 維持主題紫色字體 */
+    font-weight: bold;
+    cursor: pointer;
+    width: auto;               /* 寬度自動適應文字 */
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;                  /* 圖案跟文字中間留點縫隙 */
+    box-shadow: 0 2px 6px rgba(255, 105, 180, 0.15); /* 淡淡粉色陰影 */
+    transition: all 0.2s;
+    font-family: 'Zen Maru Gothic', sans-serif; /* 配合您的圓體字 */
+}
+
+/* 按下去或滑鼠移過去的效果 */
+.btn-nav-back:hover {
+    background: #ffe3e8;
+    transform: scale(1.05); /* 微微放大，增加互動感 */
+}
+
+/* 為了手機版體驗，增加底部留白 */
+#musicScreen {
+    padding-bottom: 80px; /* 確保內容不會貼底 */
+}
 /* --- 迷你播放器美化版 --- */
 .mini-player {
     background: #ffffff;
