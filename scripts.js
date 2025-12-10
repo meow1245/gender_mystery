@@ -234,8 +234,8 @@ function playMusic(trackNameOrScriptId, isScriptId = false) {
         // --- 劇本專屬歌名對照表 (依據 scripts-data.js 主題設計) ---
         const scriptSongNames = {
             // 🌱 未成年/校園組
-            "teen_3_bullying": "音樂：孤獨的鐘聲",       // 沉默的共犯
-            "teen_3_outing":   "音樂：失控的擴散",       // 被公開的秘密 (Outing)
+            "teen_3_bullying": "音樂：沉默的共犯",       // 沉默的共犯
+            "teen_3_outing":   "音樂：光害",       // 被公開的秘密 (Outing)
             "teen_4_photo":    "音樂：鏡頭後的視線",     // 鏡頭下的秘密 (偷拍)
             "teen_4_catfish":  "音樂：虛擬的假面",       // 假面騎士 (網戀詐騙)
             "teen_5_uniform":  "音樂：制服下的自由",     // 裙襬戰爭
