@@ -550,8 +550,9 @@ function leaveRoom() {
 function showGame(room) {
     if (document.getElementById('gameScreen').classList.contains('active')) return;
     switchScreen('gameScreen');
-    const musicKey = room.script.music || (room.scriptType === 'teen' ? 'default_teen' : 'default_adult');
-    playMusic(musicKey);
+    const musicKey = room.scriptId || room.script.id; 
+    playMusic(musicKey, true);
+
     const myPlayer = room.players[currentPlayerId];
     if (myPlayer?.character) {
         document.getElementById('characterName').textContent = myPlayer.character.name;
