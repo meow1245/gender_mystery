@@ -29,7 +29,7 @@ export const MUSIC_CONFIG = {
         'adult_5_party': './music/adult_consent_party.mp3',
         'adult_5_dating_app': './music/adult_dating_stalking.mp3',
         'adult_6_digital_footprint': './music/adult_digital_footprint.mp3',
-        'adult_6_metaverse': './music/adult_metaverse_harass.mp3',
+        'adult_6_metaverse': './music/adult_metaverse.mp3',
         
         // 如果你還有其他劇本，請在這裡新增
     }
