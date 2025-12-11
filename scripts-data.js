@@ -324,552 +324,1142 @@ export const SCRIPTS = {
         ],
         5: [
             {
-                id: "teen_5_uniform",
-                title: "裙襬戰爭",
-                description: "女學生因裙子長度受罰。規則是為了保護，還是控制？",
-                duration: "30分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "小婷因為裙子膝上 5 公分被記警告，但男同學穿短褲卻沒事。學生會發起抗議。",
-                specialVotes: [
-                    { label: "✊ 修改不合理校規", value: "修改校規" }
-                ],
-                endings: {
-                    "維持校規": {
-                        title: "結局 A：傳統的束縛 (Normal Ending)",
-                        type: "neutral",
-                        description: "抗議無效，校方堅持「學生要有學生的樣子」。小婷只能把裙子放長，怨氣持續累積。",
-                        image: "ending_rules.jpg"
-                    },
-                    "修改校規": {
-                        title: "結局 B：身體自主 (True Ending)",
-                        type: "good",
-                        description: "學校廢除了以性別區分的服儀規定。這是校園民主與性別平權的一大勝利。",
-                        image: "ending_freedom.jpg"
-                    }
+            id: "teen_5_uniform",
+            title: "裙襬戰爭：保護與束縛",
+            description: "女學生因裙子長度受罰，引發全校抗議。當「身體自主」的口號四處飄揚時，一場更深層的權力與恐懼角力正在校園暗處悄悄發酵。這究竟是一場單純的青春反叛？還是一面照見社會裂縫的殘酷鏡子？",
+            duration: "30分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "高二女生小婷因裙子膝上 5 公分被記警告，甚至被威脅請家長。學生會批評這是「性別雙標」：男生短褲再短都被視為青春活力，但女生稍微露膝就被當成問題。於是，一場以黃色絲帶為象徵的制服改革抗議迅速蔓延。只是，這件事並不如表面般單純——學區附近近期頻傳的騷擾事件、家長擔憂制服是維持階級平等的最後一道防線、學生之間隱而不宣的性別焦慮，讓整個校園像被拉緊的橡皮筋，只差一點就會斷裂。規則到底是安全網，還是控制的枷鎖？這場風暴將逼迫每個人揭露自己的立場與恐懼。",
+            specialVotes: [
+                { label: "✊ 修改不合理校規", value: "修改校規" },
+                { label: "🛡️ 維持現有保護", value: "維持校規" }
+            ],
+            endings: {
+                "維持校規": {
+                    title: "結局 A：秩序的代價 (Normal Ending)",
+                    type: "neutral",
+                    description: "在安全疑慮與家長壓力下，校規如常維持。校方增派警衛巡邏，街頭騷擾事件明顯減少。然而，學生之間卻多了一股壓抑的沉重。女生學會了「避免麻煩」而自動收斂，男生也開始不敢輕易接近抗議活動。校園恢復秩序，但同時也失去了某些東西——那份敢於質疑規則、直視自身恐懼的勇氣。",
+                    image: "ending_rules.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 420, type: "discussion", description: "規定合理嗎？" },
-                            { name: "下午", duration: 420, type: "discussion", description: "雙重標準的討論" },
-                            { name: "傍晚", duration: 180, type: "voting", description: "表決：修改校規還是維持現狀？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    {
-                        name: "小婷",
-                        portrait: "char_uniform_ting.jpg",
-                        role: "抗議學生",
-                        secret: "主任說「女生穿這樣會引人犯罪」。",
-                        clues: { "早晨_1": "我長高了所以裙子變短。", "下午_1": "男生穿短褲就是陽光？" }
-                    },
-                    {
-                        name: "林主任",
-                        portrait: "char_uniform_director.jpg",
-                        role: "訓導主任",
-                        secret: "覺得規定過時但怕家長。",
-                        clues: { "早晨_1": "為了保護女生。", "下午_1": "開放會亂。" }
-                    },
-                    {
-                        name: "阿強",
-                        portrait: "char_uniform_qiang.jpg",
-                        role: "男同學",
-                        secret: "發現自己有性別特權。",
-                        clues: { "早晨_1": "我覺得她穿很普通。", "下午_1": "應該教男生尊重。" }
-                    },
-                    {
-                        name: "學生會長",
-                        portrait: "char_uniform_president.jpg",
-                        role: "改革者",
-                        secret: "處分可能違法。",
-                        clues: { "早晨_1": "教育部有規定。", "下午_1": "討論身體自主權。" }
-                    },
-                    {
-                        name: "家長會長",
-                        portrait: "char_uniform_parent.jpg",
-                        role: "保守派",
-                        secret: "女兒也抱怨裙子熱。",
-                        clues: { "早晨_1": "要有學生樣子。", "下午_1": "以後會不會染髮？" }
-                    }
-                ],
-                questions: ["「為了保護妳」這句話背後，是否隱藏著「受害者譴責」？"]
+                "修改校規": {
+                    title: "結局 B：自由的重量 (True Ending)",
+                    type: "good",
+                    description: "學校廢除性別化服儀規定，學生贏得了象徵性的勝利。校園變得更自由、更有個性，但也更赤裸：貧富差距浮上檯面、關於自我防護與校園安全的課題被迫攤開討論。學生們第一次真正了解到，自由並不是放飛，而是要背負選擇的後果與責任。這堂課很重，但很真實。",
+                    image: "ending_freedom.jpg"
+                }
             },
-            {
-                id: "teen_5_deepfake",
-                title: "AI 換臉風波",
-                description: "同學的臉被 AI 移花接木到不雅影片。這是「技術」還是「犯罪」？",
-                duration: "35分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "班級群組流傳一段影片，主角很像班長小慧。但那是用 Deepfake 做的。",
-                specialVotes: [
-                    { label: "💻 提升數位素養與立法", value: "使用者與文化" }
-                ],
-                endings: {
-                    "製作軟體": {
-                        title: "結局 A：怪罪工具 (Normal Ending)",
-                        type: "neutral",
-                        description: "大家認為是 AI 軟體太氾濫。雖然製作者被處罰，但沒有人反思「為什麼想看這種影片」的慾望。",
-                        image: "ending_ai_ban.jpg"
-                    },
-                    "使用者與文化": {
-                        title: "結局 B：數位素養 (True Ending)",
-                        type: "good",
-                        description: "大家意識到技術中立，惡意的是人。學校開始推動「數位性暴力」課程，教導大家 Deepfake 也是一種性暴力。",
-                        image: "ending_digital_literacy.jpg"
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 420, type: "discussion", description: "衝突爆發：裙子長度究竟是紀律問題，還是制度性偏見？" },
+                        { name: "下午", duration: 420, type: "discussion", description: "恐懼與現實：安全疑慮、階級落差與學生之間難以言說的壓力。" },
+                        { name: "傍晚", duration: 180, type: "voting", description: "抉擇：規則背後的真相，是保護還是枷鎖？" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "小婷",
+                    portrait: "char_uniform_ting.jpg",
+                    role: "抗議學生",
+                    background: "這次事件的中心人物。你外表強悍、語氣直接，看似是反抗規則的代表，可內心其實藏著更多不安。",
+                    secret: "你把裙子改短不只為了好看，也為了在校外聚會時更有「存在感」。你享受被注意的感覺，但最近校門外似乎有大叔在盯著你，讓你開始懷疑自己是否太大意。你不敢說出口，因為怕自己承認了恐懼，就會變成老師口中的「誘因」。",
+                    clues: { 
+                        "早晨_1": "【反擊】我長高裙子變短很正常吧？為什麼男生短褲越短越健康，我們露一點膝蓋就像犯罪？",
+                        "下午_1": "【動搖】我其實沒有想鬧那麼大...如果我爸知道我自己改裙子，他真的會把我抓回家。而且那個大叔...算了，說了你們也不會相信。"
                     }
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 400, type: "discussion", description: "影片是真的嗎？" },
-                            { name: "下午", duration: 400, type: "discussion", description: "技術的倫理界線" },
-                            { name: "傍晚", duration: 200, type: "voting", description: "誰製作了影片？" }
-                        ]
+                {
+                    name: "林主任",
+                    portrait: "char_uniform_director.jpg",
+                    role: "訓導主任",
+                    background: "外界眼中不近人情的紀律執行者，其實你背負著遠比學生想像更沉重的壓力。",
+                    secret: "你收到警方的警告：學區附近出現跟蹤狂。你知道要求女生穿長一點不是最佳解，但你沒有更好的辦法。你痛恨檢討受害者，但更害怕新聞標題出現「本校學生遭攻擊」。你不想再看到任何孩子受傷。",
+                    clues: { 
+                        "早晨_1": "【警告】你們覺得我在刁難，但外面世界真的不是你們想的那樣。壞人不會管你們是不是在抗議。",
+                        "下午_1": "【證據】這些是警方巡邏紀錄。三起案件，離校門口不到 200 公尺。你們還覺得我在開玩笑？"
                     }
-                ],
-                characters: [
-                    { name: "小慧", portrait: "char_deepfake_hui.jpg", role: "受害者", secret: "覺得被玷污。", clues: { "早晨_1": "我沒穿那件衣服。", "下午_1": "這是盜用身分。" } },
-                    { name: "阿光", portrait: "char_deepfake_guang.jpg", role: "製作者", secret: "想試新App。", clues: { "早晨_1": "AI 很強。", "下午_1": "只是合成而已。" } },
-                    { name: "小明", portrait: "char_deepfake_ming.jpg", role: "轉發者", secret: "轉到別班群組。", clues: { "早晨_1": "大家都在傳。", "下午_1": "以為是真的。" } },
-                    { name: "老師", portrait: "char_deepfake_teacher.jpg", role: "調查者", secret: "涉及散播猥褻物品。", clues: { "早晨_1": "造成極大傷害。", "下午_1": "製作有刑責。" } },
-                    { name: "科技小老師", portrait: "char_deepfake_tech.jpg", role: "鑑識者", secret: "看出破綻。", clues: { "早晨_1": "邊緣模糊。", "下午_1": "查手機就知道。" } }
-                ],
-                questions: ["用 AI 合成別人的私密照，為什麼也算是性暴力？"]
-            }
+                },
+                {
+                    name: "阿強",
+                    portrait: "char_uniform_qiang.jpg",
+                    role: "男同學",
+                    background: "原本只想來打球過人生，卻陰錯陽差變成抗議現場的意外戰力。",
+                    secret: "你之前跟著其他男生評論女生的腿，雖然只是附和，但內心一直有愧。你加入抗議，是想彌補自己，也是真心認為校規不公平。但你也清楚，有些男生真的會亂看，這讓你更不敢輕易站在任何一邊。",
+                    clues: { 
+                        "早晨_1": "【聲援】明明大家都是學生，為什麼女生被盯得比我們男生更嚴？這就是雙標啊。",
+                        "下午_1": "【自責】如果真的開放了，有些男生一定會看得更誇張...我不是沒看過。主任擔心的事，某部分也是男生的問題吧。"
+                    }
+                },
+                {
+                    name: "學生會長",
+                    portrait: "char_uniform_president.jpg",
+                    role: "改革者",
+                    background: "理性派的代表，希望用制度促成改變，但事態似乎逐漸失控。",
+                    secret: "你原本主張協商與對話，但抗議活動逐漸被少數激進學生利用。有人甚至偷拍主任、威脅老師。你開始懷疑，這場運動還代表著自由，還是成了情緒宣洩的出口？",
+                    clues: { 
+                        "早晨_1": "【法規】教育部規範得很清楚，學校不能以服儀做懲處。我們不是造反，我們是在捍衛合法權利。",
+                        "下午_1": "【失控】有人把教官室玻璃打破…我擔心這場運動會被外界貼上『暴民』標籤。這樣對我們更不利。"
+                    }
+                },
+                {
+                    name: "家長會長",
+                    portrait: "char_uniform_parent.jpg",
+                    role: "保守派",
+                    background: "堅守傳統與紀律的代表，但你的堅持背後有更現實也更脆弱的理由。",
+                    secret: "你家境普通，努力工作只為讓孩子讀好學校。你支持制服制度，不是因為保守，而是因為它遮掩了階級差距。如果取消制服，你的孩子可能會因沒有名牌衣服被排擠。你保護的不是規矩，而是孩子的生存空間。",
+                    clues: { 
+                        "早晨_1": "【立場】學生就該有學生的樣子。來學校是讀書，不是比誰穿得多潮。",
+                        "下午_1": "【真心話】你們不懂...制服是唯一能把大家拉到同一起跑線的東西。失去它，有些孩子會更辛苦。我的孩子就是其一。"
+                    }
+                }
+            ],
+            questions: [
+                "「為了保護妳」與「檢討受害者」的界線在哪裡？",
+                "制服究竟是束縛個性的枷鎖，還是消弭貧富差距的保護網？"
+            ]
+        },
+            {
+            id: "teen_5_deepfake",
+            title: "AI 換臉風波",
+            description: "同學的臉被 AI 移花接木到不雅影片。這是「技術」還是「犯罪」？",
+            duration: "35分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "班級群組流傳一段影片，主角很像班長小慧。但那是用 Deepfake 做的。",
+
+            // ✔ specialVotes 對應 2 個結局
+            specialVotes: [
+                { label: "🧑‍💻 怪罪製作工具", value: "製作軟體" },
+                { label: "💻 提升數位素養", value: "使用者與文化" }
+            ],
+
+            endings: {
+                // ----- specialVotes 對應的兩個結局 -----
+                "製作軟體": {
+                    title: "結局 A：怪罪工具 (Normal Ending)",
+                    type: "neutral",
+                    description: "大家把矛頭指向 AI 技術本身，似乎責怪工具比反思性暴力文化還容易。事件暫時平息，但問題沒有真正解決。",
+                    image: "ending_ai_ban.jpg"
+                },
+                "使用者與文化": {
+                    title: "結局 B：數位素養提升 (True Ending)",
+                    type: "good",
+                    description: "學生們理解技術是中立的，惡意散播才是性暴力。校方開始推動『數位性暴力教育』，逐步改善網路文化。",
+                    image: "ending_digital_literacy.jpg"
+                },
+
+                // ----- 新增的角色投票結局 -----
+                "阿光": {
+                    title: "結局 C：真正的加害者 (Character Ending)",
+                    type: "bad",
+                    description: "多數人投給阿光。他承認只是『玩玩看』，但真正造成的傷害讓他無法再以玩笑帶過。學校介入輔導，也讓同學們開始反思責任與界線。",
+                    image: "ending_character_responsibility.jpg"
+                }
+            },
+
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 400, type: "discussion", description: "影片是真的嗎？" },
+                        { name: "下午", duration: 400, type: "discussion", description: "技術的倫理界線" },
+                        { name: "傍晚", duration: 200, type: "voting", description: "本次事件最該負責的是誰／什麼？" }
+                    ]
+                }
+            ],
+
+            characters: [
+                { name: "小慧", portrait: "char_deepfake_hui.jpg", role: "受害者", secret: "覺得被玷污。", clues: { "早晨_1": "我從沒拍過那種影片。", "下午_1": "這是盜用我的臉。" } },
+                { name: "阿光", portrait: "char_deepfake_guang.jpg", role: "製作者", secret: "只是想試新App。", clues: { "早晨_1": "AI 真的很強。", "下午_1": "就合成一下而已。" } },
+                { name: "小明", portrait: "char_deepfake_ming.jpg", role: "轉發者", secret: "轉到別班群組。", clues: { "早晨_1": "大家都在傳。", "下午_1": "我以為是真的。" } },
+                { name: "老師", portrait: "char_deepfake_teacher.jpg", role: "調查者", secret: "涉及散播猥褻物品。", clues: { "早晨_1": "造成極大傷害。", "下午_1": "製作與散播都有責任。" } },
+                { name: "科技小老師", portrait: "char_deepfake_tech.jpg", role: "鑑識者", secret: "看出破綻。", clues: { "早晨_1": "臉部邊緣很奇怪。", "下午_1": "查手機就知道情況。" } }
+            ],
+
+            questions: ["用 AI 合成別人的私密照，為什麼也算是性暴力？"]
+        }
+
         ],
         6: [
             {
-                id: "teen_6_game",
-                title: "虛擬世界的真實惡意",
-                description: "女玩家在遊戲語音中遭受集體騷擾。網路只是虛擬的嗎？",
-                duration: "35分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "公會裡唯一的女生小櫻退群了，因為她在語音頻道被一群男生開黃腔騷擾。",
-                specialVotes: [
-                    { label: "🎮 改革公會文化", value: "改革" }
-                ],
-                endings: {
-                    "無視": {
-                        title: "結局 A：劣幣驅逐良幣 (Bad Ending)",
-                        type: "bad",
-                        description: "公會認為「認真就輸了」。小櫻徹底離開遊戲，公會變成了只有男生的有毒環境。",
-                        image: "ending_toxic.jpg"
-                    },
-                    "改革": {
-                        title: "結局 B：數位公民素養 (Good Ending)",
-                        type: "good",
-                        description: "會長制定了「反騷擾公約」，踢出了惡意騷擾者。公會氣氛變好了。",
-                        image: "ending_community.jpg"
-                    }
+            id: "teen_6_game",
+            title: "虛擬世界的真實惡意",
+            description: "女玩家在遊戲語音中遭受集體騷擾。網路只是虛擬的嗎？",
+            duration: "35分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "公會裡唯一的女生小櫻退群了，因為她在語音頻道被一群男生開黃腔騷擾。",
+
+            specialVotes: [
+                { label: "🎮 改革公會文化", value: "改革" }
+            ],
+
+            endings: {
+                // ----- 角色投票結局 -----
+                "阿浩": {
+                    title: "結局 A：真實的傷害 (Bad Ending)",
+                    type: "bad",
+                    description: "大部分玩家投給阿浩。他承認只是想開玩笑，但行為造成小櫻心理受創。公會氣氛惡化，其他女玩家開始退群，遊戲世界變成有毒環境。",
+                    image: "ending_toxic.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 480, type: "discussion", description: "這只是遊戲玩笑？" },
-                            { name: "下午", duration: 480, type: "discussion", description: "虛擬分身的真實傷害" },
-                            { name: "傍晚", duration: 240, type: "voting", description: "公會該如何處理騷擾者？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "小櫻", portrait: "char_game_sakura.jpg", role: "受害者", secret: "有錄音檔。", clues: { "早晨_1": "玩輸出被罵。", "下午_1": "這是錄音檔。" } },
-                    { name: "阿威", portrait: "char_game_wei.jpg", role: "會長", secret: "騷擾者是主力。", clues: { "早晨_1": "遊戲圈講話衝。", "下午_1": "踢了會輸公會戰。" } },
-                    { name: "小杰", portrait: "char_game_jie.jpg", role: "旁觀玩家", secret: "跟著笑很後悔。", clues: { "早晨_1": "氣氛很嗨。", "下午_1": "真的很過分。" } },
-                    { name: "版主", portrait: "char_game_admin.jpg", role: "管理者", secret: "很少執行規範。", clues: { "早晨_1": "可以封鎖帳號。", "下午_1": "不能成為法外之地。" } },
-                    { name: "騷擾者", portrait: "char_game_harasser.jpg", role: "加害者", secret: "現實很自卑。", clues: { "早晨_1": "幹嘛認真？", "下午_1": "是她自己開麥。" } },
-                    { name: "老玩家", portrait: "char_game_veteran.jpg", role: "觀察者", secret: "以前也遇過。", clues: { "早晨_1": "到處都有。", "下午_1": "該改變文化了。" } }
-                ],
-                questions: ["虛擬世界的性騷擾會造成真實的心理創傷嗎？"]
+                "阿威": {
+                    title: "結局 B：會長的兩難 (Neutral Ending)",
+                    type: "neutral",
+                    description: "投票給會長的人認為他應該負責監督公會秩序。雖然他採取了部分措施，但因顧慮公會戰績和人際關係，問題沒有徹底解決，氛圍依舊緊張。",
+                    image: "ending_character_responsibility.jpg"
+                },
+                // ----- specialVotes 結局 -----
+                "改革": {
+                    title: "結局 C：數位公民素養 (Good Ending)",
+                    type: "good",
+                    description: "投票支持改革的玩家推動了『反騷擾公約』，踢出了惡意騷擾者，公會氣氛逐步改善。小櫻回到遊戲，其他玩家也學會尊重與自律。",
+                    image: "ending_community.jpg"
+                }
             },
+
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "這只是遊戲玩笑？" },
+                        { name: "下午", duration: 480, type: "discussion", description: "虛擬分身的真實傷害" },
+                        { name: "傍晚", duration: 240, type: "voting", description: "公會該如何處理騷擾者？" }
+                    ]
+                }
+            ],
+
+            characters: [
+                { name: "小櫻", portrait: "char_game_sakura.jpg", role: "受害者", secret: "有錄音檔。", clues: { "早晨_1": "玩遊戲時被騷擾。", "下午_1": "錄音檔可以證明她的遭遇。" } },
+                { name: "阿威", portrait: "char_game_wei.jpg", role: "會長", secret: "騷擾者是公會主力。", clues: { "早晨_1": "遊戲圈講話衝。", "下午_1": "如果踢人會輸公會戰，難以抉擇。" } },
+                { name: "小杰", portrait: "char_game_jie.jpg", role: "旁觀玩家", secret: "跟著笑很後悔。", clues: { "早晨_1": "氣氛很嗨。", "下午_1": "真的很過分，感到內疚。" } },
+                { name: "版主", portrait: "char_game_admin.jpg", role: "管理者", secret: "很少執行規範。", clues: { "早晨_1": "可以封鎖帳號。", "下午_1": "公會不能成為法外之地。" } },
+                { name: "阿浩", portrait: "char_game_harasser.jpg", role: "加害者", secret: "現實很自卑。", clues: { "早晨_1": "幹嘛認真？", "下午_1": "是她自己開麥，我只是開玩笑。" } },
+                { name: "老玩家", portrait: "char_game_veteran.jpg", role: "觀察者", secret: "以前也遇過。", clues: { "早晨_1": "到處都有類似事件。", "下午_1": "應該改變遊戲文化。" } }
+            ],
+
+            questions: ["虛擬世界的性騷擾會造成真實的心理創傷嗎？"]
+        },
             {
-                id: "teen_6_anonymous",
-                title: "匿名牆背後的黑手",
-                description: "學校匿名告白牆出現了針對特定性別的仇恨言論。誰是鍵盤俠？",
-                duration: "35分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "學校 IG 的匿名告白牆最近充滿了「台女不意外」、「母豬」等仇恨言論，導致男女同學對立。",
-                specialVotes: [
-                    { label: "🤝 面對仇恨並對話", value: "揪出源頭" }
-                ],
-                endings: {
-                    "關閉粉專": {
-                        title: "結局 A：逃避問題 (Neutral Ending)",
-                        type: "neutral",
-                        description: "粉專關閉了，但仇恨言論轉移到了更私密的群組，對立依然存在。",
-                        image: "ending_shutdown.jpg"
-                    },
-                    "揪出源頭": {
-                        title: "結局 B：面對仇恨 (True Ending)",
-                        type: "good",
-                        description: "透過 IP 追蹤發現是少數人刻意煽動。學校舉辦了性別對話論壇，化解了誤會。",
-                        image: "ending_dialogue.jpg"
-                    }
+            id: "teen_6_anonymous",
+            title: "匿名牆背後的黑手",
+            description: "學校匿名告白牆出現了針對特定性別的仇恨言論。誰是鍵盤俠？",
+            duration: "35分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "學校 IG 的匿名告白牆最近充滿了「台女不意外」、「母豬」等仇恨言論，導致男女同學對立。",
+
+            specialVotes: [
+                { label: "🤝 面對仇恨並對話", value: "揪出源頭" }
+            ],
+
+            endings: {
+                // ----- 角色投票結局 -----
+                "小豪": {
+                    title: "結局 A：鍵盤幽靈 (Bad Ending)",
+                    type: "bad",
+                    description: "大部分玩家認為小豪是黑手，但他只是跟風。粉專關閉或揪人都沒解決問題，對立依舊存在，匿名牆變得更陰暗。",
+                    image: "ending_shutdown.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 480, type: "discussion", description: "誰在投稿？" },
-                            { name: "下午", duration: 480, type: "discussion", description: "言論自由與仇恨言論" },
-                            { name: "傍晚", duration: 240, type: "voting", description: "關閉粉專還是揪出黑手？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "小編", portrait: "char_anon_editor.jpg", role: "管理者", secret: "為了流量放行。", clues: { "早晨_1": "看不完投稿。", "下午_1": "越吵流量越高。" } },
-                    { name: "女權隊長", portrait: "char_anon_feminist.jpg", role: "抗議者", secret: "也投稿罵男生。", clues: { "早晨_1": "這是性騷擾。", "下午_1": "不能容忍厭女。" } },
-                    { name: "酸民代表", portrait: "char_anon_hater.jpg", role: "投稿者", secret: "被女生拒絕。", clues: { "早晨_1": "言論自由。", "下午_1": "我說的是事實。" } },
-                    { name: "和事佬", portrait: "char_anon_peace.jpg", role: "調解者", secret: "知道是誰。", clues: { "早晨_1": "不要激動。", "下午_1": "大家誤會了。" } },
-                    { name: "吃瓜群眾", portrait: "char_anon_watcher.jpg", role: "旁觀者", secret: "每篇都按讚。", clues: { "早晨_1": "好精彩。", "下午_1": "按讚不犯法。" } },
-                    { name: "資訊社", portrait: "char_anon_it.jpg", role: "技術支援", secret: "來自同IP。", clues: { "早晨_1": "像是分身。", "下午_1": "可以查學校WiFi。" } }
-                ],
-                questions: ["言論自由包含仇恨言論嗎？"]
-            }
+                "女權隊長": {
+                    title: "結局 B：誤會與對立 (Neutral Ending)",
+                    type: "neutral",
+                    description: "投票認為女權隊長是煽動者，雖然部分對立被平息，但同學間的信任受損，仇恨言論仍存在於私密群組。",
+                    image: "ending_misunderstanding.jpg"
+                },
+                // ----- specialVotes 結局 -----
+                "揪出源頭": {
+                    title: "結局 C：面對仇恨 (True Ending)",
+                    type: "good",
+                    description: "投票支持對話的玩家追查出少數刻意煽動的匿名用戶，學校舉辦性別對話論壇，誤會解除，同學們學會正確面對仇恨言論。",
+                    image: "ending_dialogue.jpg"
+                }
+            },
+
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "誰在投稿？" },
+                        { name: "下午", duration: 480, type: "discussion", description: "言論自由與仇恨言論" },
+                        { name: "傍晚", duration: 240, type: "voting", description: "關閉粉專還是揪出黑手？" }
+                    ]
+                }
+            ],
+
+            characters: [
+                { name: "小編", portrait: "char_anon_editor.jpg", role: "管理者", secret: "為了流量放行。", clues: { "早晨_1": "看不完投稿。", "下午_1": "越吵流量越高。" } },
+                { name: "女權隊長", portrait: "char_anon_feminist.jpg", role: "抗議者", secret: "也投稿罵男生。", clues: { "早晨_1": "這是性騷擾。", "下午_1": "不能容忍厭女。" } },
+                { name: "小豪", portrait: "char_anon_hater.jpg", role: "疑似投稿者", secret: "被女生拒絕，心情受挫。", clues: { "早晨_1": "言論自由的邊界？", "下午_1": "只是表達不滿，沒惡意。" } },
+                { name: "和事佬", portrait: "char_anon_peace.jpg", role: "調解者", secret: "知道部分真相。", clues: { "早晨_1": "不要激動。", "下午_1": "大家誤會了，有些不是惡意。" } },
+                { name: "吃瓜群眾", portrait: "char_anon_watcher.jpg", role: "旁觀者", secret: "每篇都按讚。", clues: { "早晨_1": "好精彩。", "下午_1": "按讚不犯法，但助長氣氛。" } },
+                { name: "資訊社", portrait: "char_anon_it.jpg", role: "技術支援", secret: "來自同IP。", clues: { "早晨_1": "像是分身。", "下午_1": "可以查學校WiFi。", } }
+            ],
+
+            questions: ["言論自由包含仇恨言論嗎？"]
+        }
+
         ]
     },
     adult: {
         3: [
             {
-                id: "adult_3_workplace",
-                title: "透明的屏障",
-                description: "科技公司性騷擾疑雲。是誤會還是權力欺壓？",
-                duration: "30分鐘",
-                days: 1,
-                difficulty: "入門",
-                background: "行銷部經理林雅婷突然離職，傳聞與業務總監王大為的性騷擾有關。",
-                specialVotes: [
-                    { label: "🏢 改革公司體制", value: "公司體制" }
-                ],
-                endings: {
-                    "王大為": {
-                        title: "結局 A：個人懲處 (Normal Ending)",
-                        type: "neutral",
-                        description: "王大為被記過，但公司文化未變。大家私下議論林雅婷「很難搞」。",
-                        image: "ending_gossip.jpg"
-                    },
-                    "公司體制": {
-                        title: "結局 B：結構改革 (True Ending)",
-                        type: "good",
-                        description: "董事會介入，建立了獨立的性平申訴機制。公司氛圍開始轉變。",
-                        image: "ending_reform_corp.jpg"
-                    }
+            id: "adult_3_workplace",
+            title: "透明的屏障",
+            description: "科技公司出現性騷擾疑雲，是誤會還是權力欺壓？誰該負責？",
+            duration: "30分鐘",
+            days: 1,
+            difficulty: "入門",
+            background: "行銷部經理林雅婷突然離職，傳聞與業務總監王大為有關，但真相尚未明朗。",
+
+            endings: {
+                "王大為": {
+                    title: "結局 A：個人懲處 (Neutral Ending)",
+                    type: "neutral",
+                    description: "投票指向王大為，他被記過，但公司文化未改。辦公室流言四起，員工私下議論林雅婷「很難搞」。",
+                    image: "ending_gossip.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 420, type: "discussion", description: "還原辦公室傳聞" },
-                            { name: "下午", duration: 420, type: "discussion", description: "權力結構分析" },
-                            { name: "傍晚", duration: 240, type: "voting", description: "誰該為此負責？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "林雅婷", portrait: "char_work_lin.jpg", role: "檢舉人", secret: "人資暗示閉嘴。", clues: { "早晨_1": "開會时不舒服接觸。", "下午_1": "錄音：大局為重。" } },
-                    { name: "王大為", portrait: "char_work_wang.jpg", role: "嫌疑人", secret: "公司會保你。", clues: { "早晨_1": "只是鼓勵。", "下午_1": "老闆看重我。" } },
-                    { name: "人資總監", portrait: "char_work_hr.jpg", role: "公司代表", secret: "高層施壓。", clues: { "早晨_1": "她壓力大。", "下午_1": "影響股價。" } }
-                ],
-                questions: ["旁觀者在職場性騷擾中可以扮演什麼角色？"]
+                "人資總監": {
+                    title: "結局 B：高層失職 (Bad Ending)",
+                    type: "bad",
+                    description: "投票指向人資總監，揭露公司高層對事件輕描淡寫，員工士氣低落，職場氛圍惡化。",
+                    image: "ending_fail_corp.jpg"
+                },
+                "林雅婷": {
+                    title: "結局 C：制度改革契機 (Good Ending)",
+                    type: "good",
+                    description: "投票指向林雅婷，引發董事會介入，建立獨立性平申訴機制，公司文化開始轉變。",
+                    image: "ending_reform_corp.jpg"
+                }
             },
-            {
-                id: "adult_3_smart_control",
-                title: "智慧監控",
-                description: "丈夫用智慧家電監控妻子。這是關心還是控制？IoT 時代的家暴。",
-                duration: "30分鐘",
-                days: 1,
-                difficulty: "入門",
-                background: "妻子小安總是感到焦慮，覺得丈夫知道她在家的一舉一動。她懷疑家裡的智慧音箱和攝影機。",
-                specialVotes: [
-                    { label: "📱 識別數位跟蹤", value: "丈夫" }
-                ],
-                endings: {
-                    "丈夫": {
-                        title: "結局 A：識別數位跟蹤 (Good Ending)",
-                        type: "good",
-                        description: "小安發現了手機裡的間諜軟體。丈夫的行為被定義為「數位跟蹤騷擾」，小安申請了保護令。",
-                        image: "ending_privacy.jpg"
-                    },
-                    "小安": {
-                        title: "結局 B：煤氣燈效應 (Bad Ending)",
-                        type: "bad",
-                        description: "丈夫成功讓大家相信小安精神不正常，是「被害妄想」。小安被送去諮商，控制繼續進行。",
-                        image: "ending_gaslight.jpg"
-                    }
+
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 420, type: "discussion", description: "還原辦公室傳聞與事件經過" },
+                        { name: "下午", duration: 420, type: "discussion", description: "分析權力結構與可能責任" },
+                        { name: "傍晚", duration: 240, type: "voting", description: "投票選出你認為的責任角色" }
+                    ]
+                }
+            ],
+
+            characters: [
+                { 
+                    name: "林雅婷", portrait: "char_work_lin.jpg", role: "檢舉人",
+                    background: "行銷部經理，工作認真且具原則，近期因事件選擇離職，心中充滿矛盾與壓力。",
+                    secret: "人資暗示閉嘴",
+                    clues: { "早晨_1": "開會時感到不舒服的接觸。", "下午_1": "錄音：大局為重。" } 
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 360, type: "discussion", description: "無所不在的眼睛" },
-                            { name: "下午", duration: 360, type: "discussion", description: "數位控制與隱私" },
-                            { name: "傍晚", duration: 180, type: "voting", description: "這是愛還是犯罪？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "小安", portrait: "char_smart_ann.jpg", role: "妻子", secret: "門鎖紀錄被監控。", clues: { "早晨_1": "他知道我幾點回家。", "下午_1": "手機發燙。" } },
-                    { name: "丈夫", portrait: "char_smart_husband.jpg", role: "控制者", secret: "裝了定位App。", clues: { "早晨_1": "關心安全。", "下午_1": "智慧家電有紀錄。" } },
-                    { name: "閨蜜", portrait: "char_smart_friend.jpg", role: "協助者", secret: "對話被竊聽。", clues: { "早晨_1": "他知道我們喝咖啡。", "下午_1": "數位監獄。" } }
-                ],
-                questions: ["科技便利與隱私監控的界線在哪？"]
-            }
+                { 
+                    name: "王大為", portrait: "char_work_wang.jpg", role: "業務總監",
+                    background: "公司資深主管，業績優異且受上司信任，平時風趣幽默，但面對爭議時擅長迴避。",
+                    secret: "公司會保護你",
+                    clues: { "早晨_1": "只是鼓勵而已。", "下午_1": "老闆看重我。" } 
+                },
+                { 
+                    name: "人資總監", portrait: "char_work_hr.jpg", role: "公司代表",
+                    background: "人資主管，熟悉公司政策，但受限於上層壓力，常常在事件中選擇保護公司而非員工。",
+                    secret: "高層施壓",
+                    clues: { "早晨_1": "她壓力很大。", "下午_1": "影響股價。" } 
+                }
+            ],
+
+            questions: ["旁觀者在職場性騷擾中可以扮演什麼角色？"]
+        },
+            {
+            id: "adult_3_smart_control",
+            title: "智慧監控",
+            description: "丈夫用智慧家電監控妻子。這是關心還是控制？IoT 時代的家暴。",
+            duration: "30分鐘",
+            days: 1,
+            difficulty: "入門",
+            background: "妻子小安總是感到焦慮，覺得丈夫知道她在家的一舉一動。她懷疑家裡的智慧音箱和攝影機。",
+
+            endings: {
+                "丈夫": {
+                    title: "結局 A：識別數位跟蹤",
+                    type: "good",
+                    description: "小安發現了手機裡的間諜軟體，丈夫的行為被定義為「數位跟蹤騷擾」，小安申請了保護令。",
+                    image: "ending_privacy.jpg"
+                },
+                "小安": {
+                    title: "結局 B：煤氣燈效應",
+                    type: "bad",
+                    description: "丈夫成功讓大家相信小安精神不正常，小安被送去諮商，控制仍在持續。",
+                    image: "ending_gaslight.jpg"
+                },
+                "閨蜜": {
+                    title: "結局 C：旁觀者的掙扎",
+                    type: "neutral",
+                    description: "閨蜜察覺異常，但選擇不干涉。小安與丈夫的關係陷入僵局，旁觀者的沉默加深了困境。",
+                    image: "ending_neutral.jpg"
+                }
+            },
+
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 360, type: "discussion", description: "無所不在的眼睛" },
+                        { name: "下午", duration: 360, type: "discussion", description: "數位控制與隱私" },
+                        { name: "傍晚", duration: 180, type: "voting", description: "這是愛還是犯罪？" }
+                    ]
+                }
+            ],
+
+            characters: [
+                { 
+                    name: "小安", portrait: "char_smart_ann.jpg", role: "妻子",
+                    background: "年輕妻子，對智慧家電的便利與隱私監控產生焦慮，渴望被信任與尊重。",
+                    secret: "門鎖紀錄被監控",
+                    clues: { "早晨_1": "他知道我幾點回家。", "下午_1": "手機發燙。" } 
+                },
+                { 
+                    name: "丈夫", portrait: "char_smart_husband.jpg", role: "控制者",
+                    background: "丈夫表面關心妻子，但在家中使用智慧設備掌握行蹤，習慣性控制。",
+                    secret: "裝了定位App",
+                    clues: { "早晨_1": "關心安全。", "下午_1": "智慧家電有紀錄。" } 
+                },
+                { 
+                    name: "閨蜜", portrait: "char_smart_friend.jpg", role: "協助者",
+                    background: "小安最信任的朋友，對事件有所察覺，但同時擔心介入後產生衝突。",
+                    secret: "對話被竊聽",
+                    clues: { "早晨_1": "他知道我們喝咖啡。", "下午_1": "數位監獄。" } 
+                }
+            ],
+
+            questions: ["科技便利與隱私監控的界線在哪？"]
+        }
         ],
         4: [
             {
-                id: "gender_tech_lab_mystery",
-                title: "演算法的偏見：實驗室之死",
-                description: "AI 實驗室的數據洩漏事件。是個人的報復，還是系統性的謀殺？",
-                duration: "90分鐘",
-                days: 2,
-                difficulty: "困難",
-                background: "跨性別工程師 Alex 的私密醫療數據被洩漏，並被訓練進公司的 AI 模型。董事會要求抓出「內鬼」。",
-                specialVotes: [
-                    { label: "🚨 檢舉 FutureCore 公司體制", value: "FutureCore體制" }
-                ],
-                endings: {
-                    "Sam": { title: "結局 A：平庸的惡", type: "bad", description: "Sam 只是冰山一角，公司文化未變。", image: "ending_silence.jpg" },
-                    "FutureCore體制": { title: "結局 B：系統重置", type: "good", description: "你們將矛頭指向公司缺乏倫理審查，推動了結構改革。", image: "ending_reform.jpg" }
+            id: "gender_tech_lab_mystery",
+            title: "演算法的偏見：實驗室之死",
+            description: "AI 實驗室的數據洩漏事件，跨性別工程師的隱私被洩露並訓練進公司的 AI 模型。這是個人的報復，還是系統性的謀殺？",
+            duration: "90分鐘",
+            days: 2,
+            difficulty: "困難",
+            background: "跨性別工程師 Alex 的私密醫療數據被洩漏，並被用於公司的 AI 模型訓練。董事會要求找出內鬼，團隊成員各有隱情。你將在兩天內蒐集線索、討論並投票，決定責任歸屬。",
+            specialVotes: [
+                { label: "🚨 檢舉 FutureCore 公司體制", value: "FutureCore體制" }
+            ],
+            endings: {
+                "Sam": { 
+                    title: "結局 A：平庸的惡 (Bad Ending)", 
+                    type: "bad", 
+                    description: "Sam 只是冰山一角，公司文化與監管問題未被處理。短期看似落實責任，但偏見與漏洞仍存在，下一次事件可能重演。", 
+                    image: "ending_silence.jpg" 
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "上午", duration: 600, type: "discussion", description: "檢視數位足跡" },
-                            { name: "下午", duration: 600, type: "discussion", description: "職場微歧視" }
-                        ],
-                        events: [{ phase: "下午", content: "伺服器偵測到刪除日誌的痕跡。" }]
-                    },
-                    {
-                        day: 2,
-                        phases: [
-                            { name: "上午", duration: 600, type: "discussion", description: "辨識 Deepfake" },
-                            { name: "下午", duration: 600, type: "discussion", description: "倫理辯論" },
-                            { name: "投票", duration: 300, type: "voting", description: "最終審判" }
-                        ],
-                        events: [{ phase: "上午", content: "影片是由公司內部的 VoiceGen 2.0 合成的。" }]
-                    }
-                ],
-                characters: [
-                    { name: "Alex", portrait: "char_lab_alex.jpg", role: "受害者", secret: "試圖修正演算法。", clues: { "上午_1": "主管叫錯名字。", "下午_2": "影片語氣像 Sam。" } },
-                    { name: "Chris", portrait: "char_lab_chris.jpg", role: "經理", secret: "包庇 Sam。", clues: { "上午_1": "Alex 影響士氣。", "下午_2": "照片是假的。" } },
-                    { name: "Sam", portrait: "char_lab_sam.jpg", role: "工程師", secret: "私用數據。", clues: { "上午_1": "代碼註解。", "上午_2": "深夜上傳數據。" } },
-                    { name: "Taylor", portrait: "char_lab_taylor.jpg", role: "旁觀者", secret: "有 Log 備份。", clues: { "下午_1": "IP 來自內部。", "下午_2": "我有備份。" } }
-                ],
-                questions: ["當 AI 放大偏見時，誰該負責？"]
+                "Chris": {
+                    title: "結局 B：包庇管理 (Normal Ending)",
+                    type: "neutral",
+                    description: "Chris 被責備，但公司制度未變，內部仍存在隱形偏見與數據濫用風險。事件過後，大家表面合作，問題依然暗流潛伏。",
+                    image: "ending_neutral.jpg"
+                },
+                "FutureCore體制": { 
+                    title: "結局 C：系統重置 (True Ending)", 
+                    type: "good", 
+                    description: "團隊將矛頭指向公司缺乏倫理審查與內部監管，董事會介入，推動結構改革與數據審核制度，AI 系統偏見得到改善。", 
+                    image: "ending_reform.jpg" 
+                }
             },
-            {
-                id: "adult_4_domestic",
-                title: "無形的枷鎖",
-                description: "家暴不只是身體的傷。探討經濟控制與心理制約。",
-                duration: "35分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "張小惠在醫院醒來，鄰居報了警。丈夫堅稱是意外摔倒。",
-                specialVotes: [
-                    { label: "🤝 建立社會支持系統", value: "社會支持系統" }
-                ],
-                endings: {
-                    "張建國": {
-                        title: "結局 A：暴力的輪迴 (Normal Ending)",
-                        type: "bad",
-                        description: "丈夫被抓，但小惠因為沒有經濟能力，幾個月後又回到丈夫身邊。",
-                        image: "ending_cycle.jpg"
-                    },
-                    "社會支持系統": {
-                        title: "結局 B：重建生活 (True Ending)",
-                        type: "good",
-                        description: "小惠連結了法律扶助與庇護資源，終於有勇氣提告並離婚。",
-                        image: "ending_freedom_mom.jpg"
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "上午", duration: 600, type: "discussion", description: "檢視數位足跡：系統日誌與 AI 訓練資料。收集初步證據，分析異常訪問與修改紀錄。" },
+                        { name: "下午", duration: 600, type: "discussion", description: "職場微歧視：觀察團隊互動、權力結構與成員行為。討論個人行為與制度責任。" }
+                    ],
+                    events: [
+                        { phase: "下午", content: "伺服器偵測到刪除日誌的痕跡，但未找到明確操作者。" }
+                    ]
+                },
+                {
+                    day: 2,
+                    phases: [
+                        { name: "上午", duration: 600, type: "discussion", description: "辨識 Deepfake 與數據異常：影片與模型輸出是否被操控，技術痕跡分析。" },
+                        { name: "下午", duration: 600, type: "discussion", description: "倫理辯論：誰該對偏見與洩密負責？是個人、團隊還是公司制度？" },
+                        { name: "投票", duration: 300, type: "voting", description: "最終審判：投票選出責任人或提出制度改革。" }
+                    ],
+                    events: [
+                        { phase: "上午", content: "影片顯示由公司內部的 VoiceGen 2.0 系統生成，但無法單獨指向某個工程師。" }
+                    ]
+                }
+            ],
+            characters: [
+                { 
+                    name: "Alex", portrait: "char_lab_alex.jpg", role: "受害者",
+                    background: "跨性別工程師，對數據倫理非常敏感，低調工作，關心 AI 系統偏見可能帶來的影響。",
+                    secret: "試圖修正演算法",
+                    clues: { 
+                        "上午_1": "主管今天又叫錯名字，感到被忽視。",
+                        "下午_1": "發現部分模型輸出與原始數據不符，但不確定是系統錯誤還是有人操作。",
+                        "上午_2": "檢查日誌時發現數據被刪除或修改的痕跡。",
+                        "下午_2": "影片語氣與 Sam 發送過的訊息相似，但也可能被轉發給其他人。"
                     }
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 480, type: "discussion", description: "這真的是意外嗎？" },
-                            { name: "下午", duration: 540, type: "discussion", description: "家暴的循環" },
-                            { name: "傍晚", duration: 240, type: "voting", description: "如何幫助小惠？" }
-                        ]
+                { 
+                    name: "Chris", portrait: "char_lab_chris.jpg", role: "經理",
+                    background: "部門經理，工作注重結果而非過程，常忽略倫理問題，傾向用沉默維護團隊表面秩序。",
+                    secret: "包庇 Sam",
+                    clues: { 
+                        "上午_1": "Alex 詢問模型異常，我選擇淡化處理。",
+                        "下午_1": "團隊會議提及異常數據，我沒有揭露真相。",
+                        "上午_2": "發現系統日誌有刪除記錄，但覺得不方便追查。",
+                        "下午_2": "影片疑似內部生成，但我先觀望，沒有馬上通報。"
                     }
-                ],
-                characters: [
-                    { name: "張小惠", portrait: "char_domestic_hui.jpg", role: "受害者", secret: "沒錢不敢走。", clues: { "早晨_1": "他求我原諒。", "下午_1": "威脅帶走孩子。" } },
-                    { name: "張建國", portrait: "char_domestic_husband.jpg", role: "丈夫", secret: "控制慾強。", clues: { "早晨_1": "她精神不穩。", "下午_1": "乖乖聽話就好。" } },
-                    { name: "王社工", portrait: "char_domestic_worker.jpg", role: "協助者", secret: "經濟控制。", clues: { "早晨_1": "每個月都有意外。", "下午_1": "精神虐待。" } },
-                    { name: "李鄰居", portrait: "char_domestic_neighbor.jpg", role: "旁觀者", secret: "以前覺得是家務事。", clues: { "早晨_1": "聽到大吼。", "下午_1": "穿長袖遮傷。" } }
-                ],
-                questions: ["為什麼「經濟獨立」對家暴受害者這麼重要？"]
-            }
+                },
+                { 
+                    name: "Sam", portrait: "char_lab_sam.jpg", role: "工程師",
+                    background: "技術能力強但自我中心，喜歡用數據測試私人假設，對規則有彈性理解，行為低調隱蔽。",
+                    secret: "私用數據",
+                    clues: { 
+                        "上午_1": "昨晚在系統上增加自動測試代碼，沒告訴任何人。",
+                        "下午_1": "偶爾將數據轉發給私人帳號做個人分析。",
+                        "上午_2": "深夜上傳敏感數據到私人雲端，確保不被發現。",
+                        "下午_2": "影片來源可能與內部工具有關，但保持低調，不主動承認。"
+                    }
+                },
+                { 
+                    name: "Taylor", portrait: "char_lab_taylor.jpg", role: "旁觀者",
+                    background: "資深工程師，習慣觀察與紀錄，對數據異常敏感，但平時少言寡語，保留判斷空間。",
+                    secret: "有 Log 備份",
+                    clues: { 
+                        "上午_1": "注意到內部 IP 異常訪問紀錄，但未立刻通報。",
+                        "下午_1": "有人修改日誌，我記下時間戳與操作紀錄。",
+                        "上午_2": "備份系統日誌，可能是重要證據，尚未公開。",
+                        "下午_2": "影片生成流程可能被操控，我掌握部分原始紀錄。"
+                    }
+                }
+            ],
+            questions: [
+                "當 AI 放大偏見時，誰該負責？",
+                "個人行為、團隊文化與公司制度之間的責任如何界定？",
+                "旁觀者應該如何行動以防止偏見擴大？"
+            ]
+        },
+            {
+            id: "adult_4_domestic",
+            title: "無形的枷鎖",
+            description: "家暴不只是身體的傷。探討經濟控制與心理制約。",
+            duration: "35分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "張小惠在醫院醒來，鄰居報了警。丈夫堅稱是意外摔倒。",
+            endings: {
+                "張小惠": {
+                    title: "結局 A：自我覺醒",
+                    type: "good",
+                    description: "小惠找到社會資源與法律扶助，勇敢脫離控制，開始新生活。",
+                    image: "ending_freedom_mom.jpg"
+                },
+                "張建國": {
+                    title: "結局 B：暴力的輪迴",
+                    type: "bad",
+                    description: "丈夫被抓，但小惠因為經濟依賴，幾個月後又回到丈夫身邊。",
+                    image: "ending_cycle.jpg"
+                },
+                "王社工": {
+                    title: "結局 C：制度的力量",
+                    type: "good",
+                    description: "社工介入，建立長期支持系統，減少家庭暴力風險。",
+                    image: "ending_support.jpg"
+                },
+                "李鄰居": {
+                    title: "結局 D：旁觀的後果",
+                    type: "neutral",
+                    description: "鄰居選擇沉默，事件暫時平息，但問題未被解決，風險仍在。",
+                    image: "ending_bystander.jpg"
+                }
+            },
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "這真的是意外嗎？" },
+                        { name: "下午", duration: 540, type: "discussion", description: "家暴的循環" },
+                        { name: "傍晚", duration: 240, type: "voting", description: "你認為誰應該負責或主導解決？" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "張小惠",
+                    portrait: "char_domestic_hui.jpg",
+                    role: "受害者",
+                    background: "小惠經濟依賴丈夫，長期生活在心理控制之下，害怕反抗。",
+                    secret: "沒錢不敢走。",
+                    clues: {
+                        "早晨_1": "他求我原諒。",
+                        "下午_1": "威脅帶走孩子。"
+                    }
+                },
+                {
+                    name: "張建國",
+                    portrait: "char_domestic_husband.jpg",
+                    role: "丈夫",
+                    background: "建國表面關心家人，實際控制慾強，經常以經濟與心理壓力威脅小惠。",
+                    secret: "控制慾強。",
+                    clues: {
+                        "早晨_1": "她精神不穩。",
+                        "下午_1": "乖乖聽話就好。"
+                    }
+                },
+                {
+                    name: "王社工",
+                    portrait: "char_domestic_worker.jpg",
+                    role: "協助者",
+                    background: "社工熟悉家暴案件，提供法律、心理及庇護資源，努力幫助受害者脫離危險。",
+                    secret: "經濟控制。",
+                    clues: {
+                        "早晨_1": "每個月都有意外。",
+                        "下午_1": "精神虐待。"
+                    }
+                },
+                {
+                    name: "李鄰居",
+                    portrait: "char_domestic_neighbor.jpg",
+                    role: "旁觀者",
+                    background: "鄰居長期目睹爭吵，但習慣認為家務事不應干涉，因此一直保持距離。",
+                    secret: "以前覺得是家務事。",
+                    clues: {
+                        "早晨_1": "聽到大吼。",
+                        "下午_1": "穿長袖遮傷。"
+                    }
+                }
+            ],
+            questions: ["為什麼「經濟獨立」對家暴受害者這麼重要？"]
+        }
         ],
         5: [
             {
-                id: "adult_5_party",
-                title: "派對之後的迷霧",
-                description: "合意還是性侵？探討「積極同意」與「檢討受害者」。",
-                duration: "40分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "迎新派對後，小美指控阿傑性侵。阿傑喊冤。",
-                specialVotes: [
-                    { label: "✋ 認定違反意願", value: "阿傑" }
-                ],
-                endings: {
-                    "小美": { title: "結局 A：二度傷害 (Bad Ending)", type: "bad", description: "大家質疑小美「為什麼要喝醉」。阿傑無罪釋放。", image: "ending_blame.jpg" },
-                    "阿傑": { title: "結局 B：確立同意界線 (True Ending)", type: "good", description: "大家認定阿傑在對方無法抗拒時發生行為就是性侵。", image: "ending_consent.jpg" }
+            id: "adult_5_party",
+            title: "派對之後的迷霧",
+            description: "合意還是性侵？探討「積極同意」與「檢討受害者」。",
+            duration: "40分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "迎新派對後，小美指控阿傑性侵。阿傑喊冤，校園氛圍緊張。",
+            endings: {
+                "小美": {
+                    title: "結局 A：二度傷害",
+                    type: "bad",
+                    description: "大家質疑小美「為什麼要喝醉」。阿傑無罪釋放，受害者感到孤立。",
+                    image: "ending_blame.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "上午", duration: 600, type: "discussion", description: "還原現場" },
-                            { name: "下午", duration: 600, type: "discussion", description: "輿論與偏見" },
-                            { name: "傍晚", duration: 300, type: "voting", description: "這是犯罪嗎？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "小美", portrait: "char_party_mei.jpg", role: "控訴者", secret: "自責喝醉。", clues: { "上午_1": "想回家。", "下午_1": "沒印象點頭。" } },
-                    { name: "阿傑", portrait: "char_party_jay.jpg", role: "被告", secret: "沒說不就是好。", clues: { "上午_1": "沒推開。", "下午_1": "跟我去房間。" } },
-                    { name: "小華", portrait: "char_party_hua.jpg", role: "目擊者", secret: "像屍體。", clues: { "上午_1": "站不穩。", "下午_1": "撿屍。" } },
-                    { name: "諮商師", portrait: "char_party_therapist.jpg", role: "專家", secret: "不是個案。", clues: { "上午_1": "積極同意。", "下午_1": "無法同意。" } },
-                    { name: "會長", portrait: "char_party_president.jpg", role: "學生代表", secret: "學校想壓。", clues: { "上午_1": "怕影響校譽。", "下午_1": "性平教育。" } }
-                ],
-                questions: ["什麼是「積極同意」？"]
+                "阿傑": {
+                    title: "結局 B：確立同意界線",
+                    type: "good",
+                    description: "大家認定阿傑在對方無法抗拒時發生行為就是性侵，校園開始進行性平教育。",
+                    image: "ending_consent.jpg"
+                },
+                "小華": {
+                    title: "結局 C：旁觀者的責任",
+                    type: "neutral",
+                    description: "小華因為沒及時阻止或舉報，感到內疚，但事件並未受到正式處理。",
+                    image: "ending_bystander.jpg"
+                },
+                "諮商師": {
+                    title: "結局 D：教育與輔導",
+                    type: "good",
+                    description: "諮商師提供專業意見與輔導，校方開始教育學生「積極同意」的重要性。",
+                    image: "ending_therapist.jpg"
+                },
+                "會長": {
+                    title: "結局 E：校方決策",
+                    type: "neutral",
+                    description: "會長在壓力下作出保守決策，避免校園風波擴大，但問題未根本解決。",
+                    image: "ending_president.jpg"
+                }
             },
-            {
-                id: "adult_5_dating_app",
-                title: "危險的配對",
-                description: "交友軟體演算法導致的連續騷擾案。技術中立能當藉口嗎？",
-                duration: "40分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "多名女性在使用 'LoveMatch' App 後遭到跟蹤。調查發現 App 的「距離功能」有漏洞。",
-                specialVotes: [
-                    { label: "📱 追究 App 開發商責任", value: "App開發商" }
-                ],
-                endings: {
-                    "跟蹤狂": {
-                        title: "結局 A：治標不治本 (Normal Ending)",
-                        type: "neutral",
-                        description: "跟蹤狂被抓了，但 App 的漏洞還在，開發商認為是用戶自己不小心。",
-                        image: "ending_arrest.jpg"
-                    },
-                    "App開發商": {
-                        title: "結局 B：演算倫理 (True Ending)",
-                        type: "good",
-                        description: "輿論迫使開發商修正演算法，隱藏精確位置。這確立了「科技產品設計需考量人身安全」的原則。",
-                        image: "ending_tech_safety.jpg"
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "上午", duration: 600, type: "discussion", description: "還原派對現場" },
+                        { name: "下午", duration: 600, type: "discussion", description: "輿論、偏見與檢討受害者" },
+                        { name: "傍晚", duration: 300, type: "voting", description: "誰應該負責或主導解決？" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "小美",
+                    portrait: "char_party_mei.jpg",
+                    role: "控訴者",
+                    background: "小美在派對後感到被侵犯，嘗試尋求幫助與支持，但面臨同儕質疑。",
+                    secret: "自責喝醉。",
+                    clues: {
+                        "上午_1": "想回家。",
+                        "下午_1": "沒印象點頭。"
                     }
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "上午", duration: 600, type: "discussion", description: "跟蹤是如何發生的？" },
-                            { name: "下午", duration: 600, type: "discussion", description: "平台的責任" },
-                            { name: "傍晚", duration: 300, type: "voting", description: "誰是兇手？" }
-                        ]
+                {
+                    name: "阿傑",
+                    portrait: "char_party_jay.jpg",
+                    role: "被告",
+                    background: "阿傑在派對上行為含糊，堅稱自己未違反他人意願，但同學看法不一。",
+                    secret: "沒說不就是好。",
+                    clues: {
+                        "上午_1": "沒推開。",
+                        "下午_1": "跟我去房間。"
                     }
-                ],
-                characters: [
-                    { name: "受害者", portrait: "char_dating_victim.jpg", role: "使用者", secret: "只開了一下。", clues: { "上午_1": "你家燈亮了。", "下午_1": "預設開啟。" } },
-                    { name: "跟蹤狂", portrait: "char_dating_stalker.jpg", role: "加害者", secret: "三角定位。", clues: { "上午_1": "100公尺內。", "下午_1": "系統告訴我的。" } },
-                    { name: "工程師", portrait: "char_dating_dev.jpg", role: "開發者", secret: "知道風險。", clues: { "上午_1": "配對率高。", "下午_1": "精確度太高。" } },
-                    { name: "法務", portrait: "char_dating_legal.jpg", role: "公司代表", secret: "條款免責。", clues: { "上午_1": "自負風險。", "下午_1": "只是平台。" } },
-                    { name: "警官", portrait: "char_dating_police.jpg", role: "調查員", secret: "新興犯罪。", clues: { "上午_1": "規範不足。", "下午_1": "設計問題。" } }
-                ],
-                questions: ["App 設計者是否應該為用戶的安全負責？"]
-            }
+                },
+                {
+                    name: "小華",
+                    portrait: "char_party_hua.jpg",
+                    role: "目擊者",
+                    background: "小華目睹部分事件，卻因不敢得罪同學而保持沉默，內心充滿矛盾。",
+                    secret: "像屍體。",
+                    clues: {
+                        "上午_1": "站不穩。",
+                        "下午_1": "撿屍。"
+                    }
+                },
+                {
+                    name: "諮商師",
+                    portrait: "char_party_therapist.jpg",
+                    role: "專家",
+                    background: "諮商師熟悉性別教育與心理輔導，觀察事件並提供專業意見。",
+                    secret: "不是個案。",
+                    clues: {
+                        "上午_1": "積極同意。",
+                        "下午_1": "無法同意。"
+                    }
+                },
+                {
+                    name: "會長",
+                    portrait: "char_party_president.jpg",
+                    role: "學生代表",
+                    background: "會長在校園中負責平息事件，面臨家長與校方壓力，選擇保守策略。",
+                    secret: "學校想壓。",
+                    clues: {
+                        "上午_1": "怕影響校譽。",
+                        "下午_1": "性平教育。"
+                    }
+                }
+            ],
+            questions: ["什麼是「積極同意」？"]
+        },
+           {
+            id: "adult_5_dating_app",
+            title: "危險的配對",
+            description: "交友軟體演算法導致的連續騷擾案。技術中立能當藉口嗎？",
+            duration: "40分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "多名女性在使用 'LoveMatch' App 後遭到跟蹤。調查發現 App 的「距離功能」有漏洞。",
+            endings: {
+                "受害者": {
+                    title: "結局 A：使用者困境",
+                    type: "bad",
+                    description: "受害者只能小心避開跟蹤，App 漏洞仍存在，心理受到影響。",
+                    image: "ending_victim.jpg"
+                },
+                "跟蹤狂": {
+                    title: "結局 B：治標不治本",
+                    type: "neutral",
+                    description: "跟蹤狂被抓了，但 App 的漏洞還在，開發商認為是用戶自己不小心。",
+                    image: "ending_arrest.jpg"
+                },
+                "工程師": {
+                    title: "結局 C：技術責任",
+                    type: "neutral",
+                    description: "工程師被要求修改程式碼，但漏洞是否完全消除仍存疑，技術倫理成討論焦點。",
+                    image: "ending_dev.jpg"
+                },
+                "法務": {
+                    title: "結局 D：公司防護",
+                    type: "neutral",
+                    description: "法務以免責條款回應外界質疑，但輿論促使公司開始檢討平台責任。",
+                    image: "ending_legal.jpg"
+                },
+                "警官": {
+                    title: "結局 E：制度不足",
+                    type: "good",
+                    description: "警方追查跟蹤案件，促使立法與平台政策改善，保障使用者安全。",
+                    image: "ending_police.jpg"
+                }
+            },
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "上午", duration: 600, type: "discussion", description: "跟蹤是如何發生的？" },
+                        { name: "下午", duration: 600, type: "discussion", description: "平台與技術的責任" },
+                        { name: "傍晚", duration: 300, type: "voting", description: "誰應該負責？" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "受害者",
+                    portrait: "char_dating_victim.jpg",
+                    role: "使用者",
+                    background: "多名女性用戶在 LoveMatch App 遇到跟蹤事件，心理受創，需要尋求幫助。",
+                    secret: "只開了一下。",
+                    clues: {
+                        "上午_1": "你家燈亮了。",
+                        "下午_1": "預設開啟。"
+                    }
+                },
+                {
+                    name: "跟蹤狂",
+                    portrait: "char_dating_stalker.jpg",
+                    role: "加害者",
+                    background: "利用 App 的距離功能騷擾用戶，對技術漏洞有意識，行為違法。",
+                    secret: "三角定位。",
+                    clues: {
+                        "上午_1": "100公尺內。",
+                        "下午_1": "系統告訴我的。"
+                    }
+                },
+                {
+                    name: "工程師",
+                    portrait: "char_dating_dev.jpg",
+                    role: "開發者",
+                    background: "負責 LoveMatch App 核心演算法，清楚距離功能可能被濫用，面臨倫理困境。",
+                    secret: "知道風險。",
+                    clues: {
+                        "上午_1": "配對率高。",
+                        "下午_1": "精確度太高。"
+                    }
+                },
+                {
+                    name: "法務",
+                    portrait: "char_dating_legal.jpg",
+                    role: "公司代表",
+                    background: "負責 App 法律條款與風險管理，通常以免責條款回應外界問題，但內心掙扎。",
+                    secret: "條款免責。",
+                    clues: {
+                        "上午_1": "自負風險。",
+                        "下午_1": "只是平台。"
+                    }
+                },
+                {
+                    name: "警官",
+                    portrait: "char_dating_police.jpg",
+                    role: "調查員",
+                    background: "負責追查網路跟蹤與騷擾案件，發現現有規範不足，需要立法與平台合作改善。",
+                    secret: "新興犯罪。",
+                    clues: {
+                        "上午_1": "規範不足。",
+                        "下午_1": "設計問題。"
+                    }
+                }
+            ],
+            questions: ["App 設計者是否應該為用戶的安全負責？"]
+        }
         ],
         6: [
             {
-                id: "adult_6_digital_footprint",
-                title: "失控的數位足跡",
-                description: "從一張照片到產業鏈。誰是共犯？",
-                duration: "45分鐘",
-                days: 1,
-                difficulty: "進階",
-                background: "曉雯的照片被散播，網友肉搜讓她崩潰。",
-                specialVotes: [
-                    { label: "🕸️ 瓦解共犯結構", value: "共犯結構" }
-                ],
-                endings: {
-                    "前男友": { title: "結局 A：抓小放大 (Normal Ending)", type: "neutral", description: "前男友被抓，但照片依然流傳。", image: "ending_ongoing.jpg" },
-                    "共犯結構": { title: "結局 B：數位除罪化 (True Ending)", type: "good", description: "論壇被關閉，轉發者受罰。社會意識到「求車」也是犯罪。", image: "ending_clean_net.jpg" }
+            id: "adult_6_digital_footprint",
+            title: "失控的數位足跡",
+            description: "一張私密照片，從手機傳出後迅速蔓延成網路風暴。誰應該承擔責任？從加害者到平台，誰是共犯？",
+            duration: "45分鐘",
+            days: 1,
+            difficulty: "進階",
+            background: "曉雯的私密照片意外流出，朋友的分享、論壇的轉載以及網友的肉搜讓她無法正常生活。每個人都可能是事件的一環，法律、倫理與道德交織，她的心理承受極大壓力。",
+            endings: {
+                "陳曉雯": {
+                    title: "結局 A：受害者的掙扎",
+                    type: "bad",
+                    description: "曉雯的心理受到嚴重打擊，照片依然在網路流傳，她在焦慮與恐懼中小心翼翼生活，尋求社會支持與心理輔導。",
+                    image: "ending_victim.jpg"
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "上午", duration: 720, type: "discussion", description: "誰按下了分享鍵？" },
-                            { name: "下午", duration: 720, type: "discussion", description: "平台與使用者的責任" },
-                            { name: "傍晚", duration: 360, type: "voting", description: "誰責任最大？" }
-                        ]
-                    }
-                ],
-                characters: [
-                    { name: "陳曉雯", portrait: "char_footprint_wen.jpg", role: "受害者", secret: "朋友也傳。", clues: { "上午_1": "不敢出門。", "下午_1": "求載點。" } },
-                    { name: "前男友", portrait: "char_footprint_ex.jpg", role: "始作俑者", secret: "怕坐牢。", clues: { "上午_1": "她自己愛拍。", "下午_1": "我都刪了。" } },
-                    { name: "論壇站主", portrait: "char_footprint_admin.jpg", role: "平台", secret: "賺廣告費。", clues: { "上午_1": "免責聲明。", "下午_1": "流量。" } },
-                    { name: "網友A", portrait: "char_footprint_netizen.jpg", role: "鍵盤俠", secret: "沒什麼。", clues: { "上午_1": "不差我。", "下午_1": "如果是我家人。" } },
-                    { name: "警察", portrait: "char_footprint_police.jpg", role: "調查員", secret: "伺服器在國外。", clues: { "上午_1": "猥褻物品。", "下午_1": "抓不勝抓。" } },
-                    { name: "律師", portrait: "char_footprint_lawyer.jpg", role: "協助者", secret: "推動修法。", clues: { "上午_1": "性暴力。", "下午_1": "告平台。" } }
-                ],
-                questions: ["轉發私密照為什麼也是性暴力？"]
+                "前男友": {
+                    title: "結局 B：抓小放大",
+                    type: "neutral",
+                    description: "前男友被抓，但照片依然流傳，他的懲罰僅是法律的表面，事件警示有限，社會仍在討論責任界線。",
+                    image: "ending_ongoing.jpg"
+                },
+                "論壇站主": {
+                    title: "結局 C：平台責任",
+                    type: "neutral",
+                    description: "論壇站主因廣告收益受罰，但其他轉發者未被追究，問題仍存在。社會開始意識到平台在資訊擴散中的角色。",
+                    image: "ending_admin.jpg"
+                },
+                "網友A": {
+                    title: "結局 D：社會反思",
+                    type: "neutral",
+                    description: "部分網友受到譴責，社會開始討論網路散布私密資料的界線與道德責任，對網路文化帶來反思。",
+                    image: "ending_netizen.jpg"
+                },
+                "警察": {
+                    title: "結局 E：制度挑戰",
+                    type: "good",
+                    description: "警方追查案件，促使修法與平台合作改善，保障使用者權益，法律與技術逐步完善。",
+                    image: "ending_police.jpg"
+                },
+                "律師": {
+                    title: "結局 F：法律推動",
+                    type: "good",
+                    description: "律師協助受害者提告並推動法律修正，社會認識到散布私密照片也是性暴力的一種，法律框架更加完整。",
+                    image: "ending_lawyer.jpg"
+                }
             },
-            {
-                id: "adult_6_metaverse",
-                title: "虛擬邊界的觸碰",
-                description: "元宇宙中的性騷擾案。虛擬的觸碰算犯罪嗎？",
-                duration: "45分鐘",
-                days: 1,
-                difficulty: "專家",
-                background: "在一個 VR 社交平台，一名女性玩家的虛擬替身遭到集體圍堵和猥褻動作。雖然肉體沒受傷，但她感到極度創傷。",
-                specialVotes: [
-                    { label: "⚖️ 建立虛擬權利判例", value: "建立判例" }
-                ],
-                endings: {
-                    "無法可管": {
-                        title: "結局 A：法律落後科技 (Bad Ending)",
-                        type: "bad",
-                        description: "因為沒有實體接觸，現行法律難以定罪。受害者求助無門，退出 VR 世界。",
-                        image: "ending_offline.jpg"
-                    },
-                    "建立判例": {
-                        title: "結局 B：虛擬權利 (True Ending)",
-                        type: "good",
-                        description: "法院認定虛擬替身是人格的延伸，騷擾造成真實心理傷害。平台被迫增加「安全氣泡」功能。",
-                        image: "ending_virtual_rights.jpg"
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "上午", duration: 720, type: "discussion", description: "追蹤照片的來源：誰按下了分享鍵？" },
+                        { name: "下午", duration: 720, type: "discussion", description: "平台、轉發者與使用者的責任界線" },
+                        { name: "傍晚", duration: 360, type: "voting", description: "誰應承擔最大的責任？" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "陳曉雯",
+                    portrait: "char_footprint_wen.jpg",
+                    role: "受害者",
+                    background: "原本只是想與朋友分享生活點滴，卻因照片外洩陷入無休止的心理壓力與社會審視，需要尋求法律與心理支持。",
+                    secret: "朋友也傳。",
+                    clues: {
+                        "上午_1": "不敢出門，怕遇到熟人。",
+                        "下午_1": "有人私訊要求載點。"
                     }
                 },
-                dayPhases: [
-                    {
-                        day: 1,
-                        phases: [
-                            { name: "早晨", duration: 480, type: "discussion", description: "這算性騷擾嗎？" },
-                            { name: "下午", duration: 480, type: "discussion", description: "虛擬法律的邊界" },
-                            { name: "傍晚", duration: 240, type: "voting", description: "如何定罪？" }
-                        ]
+                {
+                    name: "前男友",
+                    portrait: "char_footprint_ex.jpg",
+                    role: "始作俑者",
+                    background: "最初分享照片的人，本想只在朋友圈中展示，但行為引發連鎖效應，擔心法律後果，試圖掩蓋行為。",
+                    secret: "怕坐牢。",
+                    clues: {
+                        "上午_1": "她自己愛拍，沒想到會外流。",
+                        "下午_1": "我都刪了，但已經來不及。"
                     }
-                ],
-                characters: [
-                    { name: "受害者", portrait: "char_meta_victim.jpg", role: "玩家", secret: "觸覺回饋。", clues: { "早晨_1": "圍住我。", "下午_1": "像真實一樣。" } },
-                    { name: "加害者", portrait: "char_meta_attacker.jpg", role: "玩家", secret: "只是玩。", clues: { "早晨_1": "沒碰真人。", "下午_1": "遊戲而已。" } },
-                    { name: "平台管理員", portrait: "char_meta_admin.jpg", role: "官方", secret: "設計疏失。", clues: { "早晨_1": "有靜音。", "下午_1": "用戶互動。" } },
-                    { name: "心理學家", portrait: "char_meta_psych.jpg", role: "專家", secret: "騙過大腦。", clues: { "早晨_1": "沉浸感。", "下午_1": "PTSD。" } },
-                    { name: "律師", portrait: "char_meta_lawyer.jpg", role: "法律人", secret: "挑戰法律。", clues: { "早晨_1": "公然侮辱。", "下午_1": "數位身體權。" } },
-                    { name: "目擊者", portrait: "char_meta_witness.jpg", role: "路人", secret: "有錄影。", clues: { "早晨_1": "很暴力。", "下午_1": "怕下一個是我。" } }
-                ],
-                questions: ["如果身體沒有受傷，心理的創傷算犯罪嗎？"]
-            }
+                },
+                {
+                    name: "論壇站主",
+                    portrait: "char_footprint_admin.jpg",
+                    role: "平台",
+                    background: "網站經營者，為了廣告收益對內容審核疏於管理，未預見私密資料的傳播可能造成的傷害。",
+                    secret: "賺廣告費。",
+                    clues: {
+                        "上午_1": "免責聲明，我們不負責用戶行為。",
+                        "下午_1": "流量才是王道。"
+                    }
+                },
+                {
+                    name: "網友A",
+                    portrait: "char_footprint_netizen.jpg",
+                    role: "鍵盤俠",
+                    background: "匿名網友，在社群中轉發或評論照片，未充分理解自己的行為會對他人造成嚴重傷害。",
+                    secret: "沒什麼。",
+                    clues: {
+                        "上午_1": "我只是在評論，不算責任。",
+                        "下午_1": "如果是我家人，我也會心疼。"
+                    }
+                },
+                {
+                    name: "警察",
+                    portrait: "char_footprint_police.jpg",
+                    role: "調查員",
+                    background: "負責追查網路散布私密照片案件，發現現有法律規範不足，需要結合法律與平台技術加強保護。",
+                    secret: "伺服器在國外。",
+                    clues: {
+                        "上午_1": "這類猥褻物品很難全面追蹤。",
+                        "下午_1": "現有法規與設計漏洞讓案件抓不勝抓。"
+                    }
+                },
+                {
+                    name: "律師",
+                    portrait: "char_footprint_lawyer.jpg",
+                    role: "協助者",
+                    background: "協助受害者提告並推動法律修正，致力於讓社會與法律正視網路性暴力問題。",
+                    secret: "推動修法。",
+                    clues: {
+                        "上午_1": "這是一種性暴力，不容忽視。",
+                        "下午_1": "提告平台，追究法律責任。"
+                    }
+                }
+            ],
+            questions: ["轉發私密照為什麼也是性暴力？", "平台與使用者的責任應如何界定？"]
+        },
+            {
+            id: "adult_6_metaverse_mystery",
+            title: "虛擬邊界的觸碰",
+            description: "在沈浸式元宇宙社交平台『伊甸園（Eden）』中，一場前所未有的倫理風暴正在醞釀。一名佩戴高階體感服的玩家，在虛擬廣場遭到了眾人的「圍獵」與猥褻。但在代碼構建的世界裡，沒有物理接觸，何來真正的傷害？這是一場單純的惡作劇、系統漏洞的意外，還是數位時代的新型犯罪？隨著調查深入，虛擬與現實的邊界逐漸崩塌，誰才是真正的受害者？",
+            duration: "70分鐘",
+            days: 3,
+            difficulty: "專家",
+            background: "事件發生在 VR 社交巨頭『伊甸園』的熱門區域——星雲廣場。週五深夜，多名玩家目擊了一場詭異的集體霸凌：一名女性角色的虛擬替身被數名男性角色圍堵，並對其實施了模擬猥褻動作。雖然這只是虛擬影像的重疊，但受害者聲稱透過高階體感設備感受到了真實的「幻肢觸覺」與極度恐懼。與此同時，涉事玩家堅稱這只是遊戲機制內的「穿模」玩笑。數據紀錄支離破碎，證詞各執一詞，隱藏在虛擬面具下的人性謎團即將揭開。",
+            endings: {
+                "林晨": {
+                    title: "結局 A：數位幽靈",
+                    type: "bad",
+                    description: "林晨永久註銷了帳號，並患上了嚴重的恐慌症與觸覺過敏。雖然輿論指責了施暴者，但法律無法對「不存在的身體」進行驗傷。她成為了元宇宙發展史上的一個數位幽靈，徘徊在無法被定義的傷痛中。",
+                    image: "ending_offline.jpg"
+                },
+                "周澤": {
+                    title: "結局 B：混亂中立者",
+                    type: "neutral",
+                    description: "周澤被揭露利用了物理引擎的漏洞進行惡作劇，雖然帳號被封禁，但他成功利用「虛擬無罪論」逃脫了法律制裁。他在駭客論壇被視為揭露平台漏洞的英雄，事件真相被淹沒在網路狂歡中。",
+                    image: "ending_unclear.jpg"
+                },
+                "陳琦": {
+                    title: "結局 C：系統修正",
+                    type: "good",
+                    description: "陳琦代表平台方承擔了部分責任，並強勢推出了「個人邊界氣泡」功能與更嚴格的體感回饋審查。雖然被批評為「扼殺自由」，但至少在代碼層面上，這類悲劇不會再輕易重演。",
+                    image: "ending_platform.jpg"
+                },
+                "高珊": {
+                    title: "結局 D：心靈迴響",
+                    type: "neutral",
+                    description: "高珊發表了關於「虛擬創傷真實化」的研究報告，引發了學界震動。雖然無法改變已發生的傷害，但她成功讓社會意識到：大腦無法區分高逼真的虛擬痛覺與現實。事件成為心理學研究的重要案例。",
+                    image: "ending_psychology.jpg"
+                },
+                "張堯": {
+                    title: "結局 E：法理新紀元",
+                    type: "good",
+                    description: "張堯成功推動了「虛擬人格權」的司法解釋，促使法院立案受理此類虛擬性騷擾案件。這不僅是一次勝訴，更是數位人權歷史上的里程碑，確立了虛擬替身作為人格延伸的法律地位。",
+                    image: "ending_law.jpg"
+                },
+                "江洋": {
+                    title: "結局 F：羅生門之眼",
+                    type: "neutral",
+                    description: "江洋公佈了完整視角的錄影，卻發現不同渲染模式下，每個玩家看到的畫面截然不同。真相消融在技術差異中，沒有人完全無辜，也沒有人絕對有罪。這一結局留給世人無盡的哲學思考。",
+                    image: "ending_witness.jpg"
+                }
+            },
+            dayPhases: [
+                {
+                    day: 1,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "【重現案發代碼】透過伺服器殘存日誌與目擊者口述，還原「星雲廣場」的事發經過。分辨哪些是系統判定的「穿模（Clipping）」，哪些是主動的「觸摸」。" },
+                        { name: "下午", duration: 480, type: "discussion", description: "【幻肢與感知】深入探討「幻影觸覺（Phantom Sense）」現象。分析受害者的恐懼來源是生理性的神經刺激，還是心理性的認知恐慌？沈浸感是否成為了傷害的幫兇？" }
+                    ],
+                    events: [
+                        { phase: "下午", content: "林晨崩潰地描述那種「被數十隻手觸摸」的噁心感，儘管數據顯示並未發生資料交換。江洋提供了一段低解析度側錄，畫面中周澤的角色似乎在笑。" }
+                    ]
+                },
+                {
+                    day: 2,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "【動機解碼】剖析角色背後的真實意圖。周澤的惡作劇是否帶有惡意？林晨的反應是否被過度解讀？挖掘玩家線下身份與線上行為的反差。" },
+                        { name: "下午", duration: 480, type: "discussion", description: "【上帝的漏洞】審視平台方的責任。陳琦承認物理引擎存在「碰撞體積」的判定延遲，這是否被周澤等人利用？法律專家張堯介入，討論虛擬猥褻的定罪邊界。" }
+                    ],
+                    events: [
+                        { phase: "下午", content: "陳琦緊急發布系統公告，承認體感服接口存在未加密漏洞。這條消息讓周澤的行為從「惡作劇」升級為可能的「技術入侵」，氣氛瞬間緊張。" }
+                    ]
+                },
+                {
+                    day: 3,
+                    phases: [
+                        { name: "早晨", duration: 480, type: "discussion", description: "【靈魂的審判】結合心理學報告與數位鑑識結果。如果代碼沒有惡意，但人心有，該如何定罪？誰才是這場混亂的始作俑者？" },
+                        { name: "下午", duration: 480, type: "discussion", description: "【最終辯論】針對「虛擬身體權」進行攻防。是要求平台賠償、將加害者繩之以法，還是承認這只是技術發展的陣痛？確立最終的究責方向。" },
+                        { name: "傍晚", duration: 240, type: "voting", description: "【判決時刻】投票選出事件的核心責任人（加害者/平台/受害者心理/法律滯後），決定元宇宙的倫理未來。" }
+                    ],
+                    events: [
+                        { phase: "早晨", content: "江洋解鎖了最後一段加密視角，顯示當時周澤的角色動作與受害者的體感回饋時間點存在微小的「不同步」，暗示可能有第三者或系統錯誤介入。" },
+                        { phase: "下午", content: "高珊提出關鍵心理評估：受害者的創傷反應符合 PTSD 症狀，證明傷害已跨越虛擬邊界進入現實。" }
+                    ]
+                }
+            ],
+            characters: [
+                {
+                    name: "林晨",
+                    portrait: "char_meta_player1.jpg",
+                    role: "受害玩家",
+                    background: "一名重度 VR 使用者，現實中性格內向、敏感。她使用最新型的全身觸覺回饋套裝（Haptic Suit）來尋求虛擬世界的溫暖，卻沒想到這層高科技皮膚成為了傷害她的媒介。",
+                    secret: "她開啟了開發者模式中的「極限觸覺」選項，痛覺與觸覺靈敏度是常人的三倍。",
+                    clues: {
+                        "早晨_1": "我感覺得到……那種呼吸打在脖子上的濕熱感，這不可能是錯覺！",
+                        "下午_1": "他們圍成一圈，像是在觀賞動物一樣，我動彈不得，系統選單被擋住了。",
+                        "早晨_2": "有人在耳邊說『這皮膚觸感真好』，聲音經過變聲器處理。",
+                        "下午_2": "那種噁心的感覺現在還殘留在皮膚上，我甚至不敢脫下頭盔面對現實。",
+                        "早晨_3": "我不知道是誰帶頭的，視線裡全是重疊的多邊形模型。",
+                        "下午_3": "如果我退出，就證明我認輸了，這是我唯一的社交空間。"
+                    }
+                },
+                {
+                    name: "周澤",
+                    portrait: "char_meta_player2.jpg",
+                    role: "涉事玩家",
+                    background: "資深遊戲玩家，擅長尋找遊戲 BUG。在他眼裡，元宇宙只是一堆數據和貼圖，沒有道德束縛。他認為「沒有物理接觸就沒有傷害」，對指控感到荒謬。",
+                    secret: "其實是他編寫了一個自動腳本，讓角色會自動貼近其他玩家，但他沒料到會針對林晨。",
+                    clues: {
+                        "早晨_1": "拜託，我的手只是穿過了她的模型，連碰撞體積都沒觸發。",
+                        "下午_1": "旁邊的人都在笑，這就是個派對氣氛，誰知道她那麼開不起玩笑？",
+                        "早晨_2": "這只是虛擬動作（Emote），系統允許的，我有什麼錯？",
+                        "下午_2": "如果不想要被碰，為什麼不開『個人護盾』？是她自己沒設定好。",
+                        "早晨_3": "我根本沒碰到她的體感數據接口，除非系統自己誤判。",
+                        "下午_3": "或許是有隊友在亂搞，但我只是站在那裡看戲而已。"
+                    }
+                },
+                {
+                    name: "陳琦",
+                    portrait: "char_meta_admin.jpg",
+                    role: "平台架構師",
+                    background: "『伊甸園』的技術負責人，冷靜理智的技術官僚。他最在意的是平台的穩定性與股價，對於個別玩家的糾紛傾向於用技術參數來解釋，試圖大事化小。",
+                    secret: "平台為了增加日活躍度，暗中調低了「騷擾判定」的靈敏度閾值。",
+                    clues: {
+                        "早晨_1": "伺服器日誌顯示所有互動均在合規參數內，沒有違規封包。",
+                        "下午_1": "我們提供平台，但不負責監管每一句人類的對話。",
+                        "早晨_2": "安全靜音區功能一直都在，是玩家教育不足的問題。",
+                        "下午_2": "確實，物理引擎在多人重疊時會有判定BUG，但這不是性騷擾。",
+                        "早晨_3": "我們會考慮賠償虛擬貨幣，但不承認法律責任。",
+                        "下午_3": "正在開發新的AI監控系統，但隱私權和安全很難平衡。"
+                    }
+                },
+                {
+                    name: "高珊",
+                    portrait: "char_meta_psych.jpg",
+                    role: "認知心理學家",
+                    background: "專門研究「虛擬實境創傷」的學者。她認為大腦對於虛擬體驗的編碼與現實無異，致力於證明虛擬霸凌的實質危害，立場偏向受害者，但講求科學證據。",
+                    secret: "她正在尋找一個完美的案例來發表論文，林晨對她來說也是個「實驗品」。",
+                    clues: {
+                        "早晨_1": "大腦被騙了，杏仁核的恐懼反應是真實的，皮質醇水平不會說謊。",
+                        "下午_1": "這種症狀在臨床上屬於急性應激障礙（ASD），這不是『玩玩而已』。",
+                        "早晨_2": "加害者利用了『去抑制效應』，在虛擬面具下釋放了原始的惡意。",
+                        "下午_2": "即使沒有物理接觸，侵入個人空間（Proxemics）本身就是一種暴力。",
+                        "早晨_3": "受害者的體驗與旁觀者的冷漠形成了巨大的認知斷層。",
+                        "下午_3": "恐懼已經被寫入神經迴路，這需要長期的心理重建。"
+                    }
+                },
+                {
+                    name: "張堯",
+                    portrait: "char_meta_lawyer.jpg",
+                    role: "科技法律師",
+                    background: "敏銳且野心勃勃的律師，尋找法律與科技的灰色地帶。他不在乎真相的細節，而在乎這個案件能否成為推動立法或索賠的槓桿，語言充滿邏輯陷阱。",
+                    secret: "他其實同時在接觸平台方，準備兩邊押注，看哪邊利益更大。",
+                    clues: {
+                        "早晨_1": "現行刑法對『性騷擾』的定義依賴於物理實體，這是一個巨大的真空。",
+                        "下午_1": "虛擬替身應被視為『數位人格』的延伸，侵犯它就是侵犯人權。",
+                        "早晨_2": "如果不建立判例，元宇宙將成為法外之地（Wild West）。",
+                        "下午_2": "平台未能提供足夠的安全保障機制，這構成了『不作為』侵權。",
+                        "早晨_3": "技術中立不能成為逃避責任的藉口，代碼就是法律。",
+                        "下午_3": "我們有機會創造歷史，重新定義什麼是『傷害』。"
+                    }
+                },
+                {
+                    name: "江洋",
+                    portrait: "char_meta_witness.jpg",
+                    role: "數位遊民/目擊者",
+                    background: "一名在元宇宙中販賣情報與八卦的神秘玩家。他聲稱錄下了全過程，但他提供的視角總是經過剪輯或模糊處理，似乎在等待出價最高的人，或者在隱藏什麼。",
+                    secret: "那段錄影其實是他駭入系統後台錄製的，如果公開會暴露他自己的非法行為。",
+                    clues: {
+                        "早晨_1": "我看見了，那群人動作很整齊，不像是隨機的路人。",
+                        "下午_1": "我有更清晰的角度，但這個檔案……損壞了一部分。",
+                        "早晨_2": "別太相信眼睛看到的，渲染層可以被濾鏡修改。",
+                        "下午_2": "那天晚上，不只林晨一個人被圍住，但只有她反應最大。",
+                        "早晨_3": "我只是個記錄者，真相取決於你相信哪一段數據。",
+                        "下午_3": "有些事情，平台不想讓你們知道，比如那個『隱藏指令』。"
+                    }
+                }
+            ],
+            questions: [
+                "當物理接觸不存在時，『性騷擾』的定義應如何改寫？",
+                "大腦感知的痛苦與程式碼判定的無傷，何者即為真實？",
+                "平台是中立的技術提供者，還是數位社會的治理者與共犯？",
+                "當所有人的證詞都被主觀視角與技術參數扭曲，我們該如何拼湊真相？"
+            ]
+        }
         ]
     }
 };
