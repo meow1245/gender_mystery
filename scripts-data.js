@@ -736,7 +736,7 @@ export const SCRIPTS = {
         ],
         4: [
             {
-    id: "gender_algo_bias_mystery",
+    id: "gender_tech_lab_mystery",
     title: "演算法的隱形天花板",
     description: "頂尖科技公司 FutureCore 即將發布革命性的 AI 人資系統『雅典娜』。但在最後測試中，數據科學家發現系統竟自動將女性履歷導向『助理』職位，而將男性導向『工程師』。這究竟是程式碼的錯誤，還是人類社會偏見的數位化鏡像？",
     duration: "90分鐘",
@@ -845,97 +845,103 @@ export const SCRIPTS = {
     ]
         },
             {
-            id: "adult_4_domestic",
-            title: "無形的枷鎖",
-            description: "家暴不只是身體的傷。探討經濟控制與心理制約。",
-            duration: "35分鐘",
-            days: 1,
-            difficulty: "進階",
-            background: "張小惠在醫院醒來，鄰居報了警。丈夫堅稱是意外摔倒。",
-            endings: {
-                "張小惠": {
-                    title: "結局 A：自我覺醒",
-                    type: "good",
-                    description: "小惠找到社會資源與法律扶助，勇敢脫離控制，開始新生活。",
-                    image: "ending_freedom_mom.jpg"
-                },
-                "張建國": {
-                    title: "結局 B：暴力的輪迴",
-                    type: "bad",
-                    description: "丈夫被抓，但小惠因為經濟依賴，幾個月後又回到丈夫身邊。",
-                    image: "ending_cycle.jpg"
-                },
-                "王社工": {
-                    title: "結局 C：制度的力量",
-                    type: "good",
-                    description: "社工介入，建立長期支持系統，減少家庭暴力風險。",
-                    image: "ending_support.jpg"
-                },
-                "李鄰居": {
-                    title: "結局 D：旁觀的後果",
-                    type: "neutral",
-                    description: "鄰居選擇沉默，事件暫時平息，但問題未被解決，風險仍在。",
-                    image: "ending_bystander.jpg"
-                }
-            },
-            dayPhases: [
-                {
-                    day: 1,
-                    phases: [
-                        { name: "早晨", duration: 480, type: "discussion", description: "這真的是意外嗎？" },
-                        { name: "下午", duration: 540, type: "discussion", description: "家暴的循環" },
-                        { name: "傍晚", duration: 240, type: "voting", description: "你認為誰應該負責或主導解決？" }
-                    ]
-                }
-            ],
-            characters: [
-                {
-                    name: "張小惠",
-                    portrait: "char_domestic_hui.jpg",
-                    role: "受害者",
-                    background: "小惠經濟依賴丈夫，長期生活在心理控制之下，害怕反抗。",
-                    secret: "沒錢不敢走。",
-                    clues: {
-                        "早晨_1": "他求我原諒。",
-                        "下午_1": "威脅帶走孩子。"
-                    }
-                },
-                {
-                    name: "張建國",
-                    portrait: "char_domestic_husband.jpg",
-                    role: "丈夫",
-                    background: "建國表面關心家人，實際控制慾強，經常以經濟與心理壓力威脅小惠。",
-                    secret: "控制慾強。",
-                    clues: {
-                        "早晨_1": "她精神不穩。",
-                        "下午_1": "乖乖聽話就好。"
-                    }
-                },
-                {
-                    name: "王社工",
-                    portrait: "char_domestic_worker.jpg",
-                    role: "協助者",
-                    background: "社工熟悉家暴案件，提供法律、心理及庇護資源，努力幫助受害者脫離危險。",
-                    secret: "經濟控制。",
-                    clues: {
-                        "早晨_1": "每個月都有意外。",
-                        "下午_1": "精神虐待。"
-                    }
-                },
-                {
-                    name: "李鄰居",
-                    portrait: "char_domestic_neighbor.jpg",
-                    role: "旁觀者",
-                    background: "鄰居長期目睹爭吵，但習慣認為家務事不應干涉，因此一直保持距離。",
-                    secret: "以前覺得是家務事。",
-                    clues: {
-                        "早晨_1": "聽到大吼。",
-                        "下午_1": "穿長袖遮傷。"
-                    }
-                }
-            ],
-            questions: ["為什麼「經濟獨立」對家暴受害者這麼重要？"]
+    id: "adult_4_domestic",
+    title: "雙薪陷阱：隱形枷鎖",
+    description: "在外人眼中，這是一對令人稱羨的菁英雙薪夫妻。但為何年薪百萬的妻子，連買杯咖啡都要看丈夫臉色？當家務分配成為權力控制的手段，經濟暴力如何偽裝成「理財規劃」？",
+    duration: "35分鐘",
+    days: 1,
+    difficulty: "進階",
+    background: "行銷總監張小惠深夜被送往急診，手臂骨折。丈夫張建國（投資銀行高管）聲稱是小惠做家事時不慎滑倒。然而，醫護人員發現小惠雖然穿著名牌，但身上沒有任何現金或信用卡，且長期有過勞與營養失衡的跡象。這不是一個傳統的家暴故事，而是一場關於「控制」的心理博弈。",
+    endings: {
+        "張小惠": {
+            title: "結局 A：奪回主導權",
+            type: "good",
+            description: "小惠在律師協助下，驚覺自己多年來的薪水全被轉入丈夫名下的「共同帳戶」且無法動用。她勇敢申請分居，爭取資產分配，並意識到家務外包的重要性，重獲經濟與生活的自由。",
+            image: "ending_freedom_career.jpg"
+        },
+        "張建國": {
+            title: "結局 B：完美的牢籠",
+            type: "bad",
+            description: "建國成功說服眾人，小惠因為工作壓力大導致情緒不穩，需要他代管財務與生活。小惠回到家中，繼續過著表面光鮮、實則被剝奪所有自主權的「高級囚徒」生活。",
+            image: "ending_gaslight_luxury.jpg"
+        },
+        "雅雯": {
+            title: "結局 C：盟友的覺醒",
+            type: "good",
+            description: "身為同事的雅雯戳破了建國的謊言，協助小惠進行秘密蒐證。這起事件促使公司內部開始討論「經濟暴力」議題，建立了職場受害者支持網絡。",
+            image: "ending_support_network.jpg"
+        },
+        "陳鄰居": {
+            title: "結局 D：沉默的共犯",
+            type: "neutral",
+            description: "鄰居認為這只是菁英家庭的壓力宣洩，選擇不介入。小惠的求救訊號被忽視，錯失了第一時間脫離控制的機會。",
+            image: "ending_bystander_silent.jpg"
         }
+    },
+    dayPhases: [
+        {
+            day: 1,
+            phases: [
+                { name: "早晨", duration: 480, type: "discussion", description: "【完美的假象】還原急診室現場。為何高薪的職業婦女會顯得如此無助？分析雙方的說詞與矛盾。" },
+                { name: "下午", duration: 540, type: "discussion", description: "【第二輪班】探討家庭內部的勞動分配與金錢流向。是誰在做家事？錢都去了哪裡？" },
+                { name: "傍晚", duration: 240, type: "voting", description: "【決斷時刻】投票決定誰該為這場悲劇負責，或是誰能打破這個僵局。" }
+            ],
+            events: [
+                { phase: "下午", content: "銀行通知小惠的副卡因『額度不足』無法支付醫療費，但她明明剛領了獎金。" }
+            ]
+        }
+    ],
+    characters: [
+        {
+            name: "張小惠",
+            portrait: "char_domestic_hui_pro.jpg",
+            role: "受害者/行銷總監",
+            background: "職場上的女強人，但在家中卻地位低落。下班後要負責所有家務，因為丈夫認為她「賺得比較少（其實差不多）所以該多做點」。",
+            secret: "薪水全上繳。",
+            clues: {
+                "早晨_1": "我真的只是太累了...昨天加班到九點，回家還要煮飯、洗衣服，建國說地板不乾淨，我就急著去擦...",
+                "下午_1": "我的薪水？建國說他懂投資，要我把錢都轉給他統一管理，每個月給我兩萬塊生活費。他說這樣是為了我們的退休計畫。"
+            }
+        },
+        {
+            name: "張建國",
+            portrait: "char_domestic_husband_suit.jpg",
+            role: "丈夫/投行高管",
+            background: "外表斯文的菁英，擅長用邏輯與數據貶低妻子。認為「家務是女人的天職」，並透過控管金錢來維持在家中的絕對權威。",
+            secret: "轉移共同資產。",
+            clues: {
+                "早晨_1": "小惠就是太情緒化了，工作壓力大就神情恍惚。我常跟她說，家裡的事如果不做好，在外面職位再高也沒用。",
+                "下午_1": "經濟控制？別說得那麼難聽。我是CFA（特許金融分析師），她那點理財智商只會把錢敗光，我是在幫她守住財富。"
+            }
+        },
+        {
+            name: "雅雯",
+            portrait: "char_domestic_colleague.jpg",
+            role: "同事/財務顧問",
+            background: "小惠的同事兼好友，敏銳地發現小惠雖高薪卻常借錢買咖啡，且身上常有不明瘀青，懷疑案情不單純。",
+            secret: "發現異常金流。",
+            clues: {
+                "早晨_1": "上次部門聚餐每人一千塊，小惠竟然拿不出錢，說卡被停了。她是總監耶！這太不合理了。",
+                "下午_1": "我不相信是意外。小惠跟我抱怨過，建國連她買衛生棉的牌子都要管，說她『不會持家』。這是典型的煤氣燈操縱。"
+            }
+        },
+        {
+            name: "陳鄰居",
+            portrait: "char_domestic_neighbor_rich.jpg",
+            role: "旁觀者",
+            background: "住在對門的退休教授，認為雙薪家庭有些爭執很正常，覺得小惠應該多體諒丈夫的壓力。",
+            secret: "聽到爭吵內容。",
+            clues: {
+                "早晨_1": "昨晚是有聽到聲音，好像是男的在罵『妳賺那點錢有什麼資格談條件』，然後就是東西倒塌的聲音。",
+                "下午_1": "這對夫妻平常看著挺體面的，建國還會幫忙倒垃圾（雖然只看過一次）。應該只是床頭吵床尾和吧？"
+            }
+        }
+    ],
+    questions: [
+        "為什麼擁有高收入的女性，仍可能陷入『經濟暴力』的陷阱？",
+        "『家務勞動』的不對等分配，如何成為親密關係中的慢性毒藥？"
+    ]
+}
         ],
         5: [
             {

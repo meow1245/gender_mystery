@@ -247,7 +247,7 @@ function playMusic(trackNameOrScriptId, isScriptId = false) {
             "adult_3_workplace":     "音樂：The Gray Area (灰色地帶)",    // 職場性騷擾
             "adult_3_smart_control": "音樂：飛行模式",    // 數位家暴監控
             "gender_tech_lab_mystery":"音樂：演算法的偏誤",  // 數據偏見
-            "adult_4_domestic":      "音樂：無聲的風暴",    // 家暴與經濟控制
+            "adult_4_domestic":      "音樂：雙星軌道",    // 經濟控制
             "adult_5_party":         "音樂：迷離的記憶",    // 派對與合意
             "adult_5_dating_app":    "音樂：計算出的陷阱",  // 交友軟體跟蹤
             "adult_6_digital_footprint":"音樂：無法刪除的烙印", // 數位足跡
